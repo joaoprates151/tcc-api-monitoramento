@@ -1,79 +1,4 @@
-﻿/*
-- Instalação do MYSql Workbanch
-  https://www.youtube.com/watch?v=c0YK0HBqZGk
-
-- Pacote
-  mysql-installer-community-8.0.41.0.msi
-  
-- MySQL
-  - Usuário: root
-    Senha  : 001806
-  
-  - Usuário: TCC
-    Senha  : l224@tcc2025  
-
-*/
-
-/*
-
-SELECT TABLE_NAME 
-FROM INFORMATION_SCHEMA.TABLES 
-WHERE TABLE_SCHEMA = 'your_database_name' 
-AND TABLE_NAME = 'your_table_name';
-
-
-
-  CREATE TABLE IF NOT EXISTS 
-        PESSOA (ID_Pessoa            INT             AUTO_INCREMENT PRIMARY KEY
-				  		 ,NM_Pessoa            VARCHAR(100)    NOT NULL
-							 ,NO_Documento         VARCHAR(100)    UNIQUE NOT NULL
-							 ,DT_Nascimento        DATETIME 
-							 ,Endereco             VARCHAR(100)    NOT NULL
-							 ,Bairro               VARCHAR(40)     NOT NULL
-							 ,Complemento          VARCHAR(40) 
-						 	 ,CEP                  VARCHAR(8)      NOT NULL
-						 	 ,Telefone             VARCHAR(15)     NOT NULL
-							 ,Email                VARCHAR(100) );
-
-
-- MYSql
-SELECT MD5('w3resource'); 
-
-Explicação:
-
-A declaração MySQL acima retorna o valor MD5 de w3resource. O valor de retorno é b273cb2263eb88f61f7133cd308b4064.
-
-Saída:
-
-
-ALTER DATABASE databasename CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-ALTER TABLE tablename CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-
-              
-FOREIGN KEY (ID_Pessoa) REFERENCES PESSOA(ID_PESSOA) ON DELETE CASCADE              
-
-/*
-
-DECLARE @g geography;   
-SET @g = geography::Point(47.65100, -122.34900, 4326)  
-SELECT @g.ToString();  
-
-CREATE TABLE #LOCALIZACAO (COORDENADA GEOGRAPHY);
-
-INSERT INTO #LOCALIZACAO (COORDENADA) VALUES (GEOGRAPHY::POINT(47.65100, -122.34900, 4326) );
-
-SELECT coordenadas.Lat [Latitude]
-      ,coordenadas.Long [Longitude] 
-FROM localizacao
-
-*/
-
-
-
-*/
-
-
- /*
+﻿ /*
  Criar o banco de dados
  */
  
@@ -127,13 +52,23 @@ CREATE TABLE RUA (ID_Rua           INTEGER       AUTO_INCREMENT PRIMARY KEY
   ,FOREIGN KEY (ID_Bairro)     REFERENCES BAIRRO (ID_Bairro)
   ,FOREIGN KEY (ID_Localidade) REFERENCES LOCALIDADE(ID_Localidade)); 
 
+/*
+CADASTRO DE FUNÇÃO: 
+- Cargo é a posição que uma pessoa ocupa em uma organização 
+- Função é o conjunto de atividades e responsabilidades associadas a essa posição. 
+*/
+
+DROP TABLE IF EXISTS FUNCAO; 
+CREATE TABLE FUNCAO (ID_Funcao      INTEGER         AUTO_INCREMENT PRIMARY KEY
+                    ,NM_Funcao      VARCHAR(40)     NOT NULL);
+
   
  /*
  CADASTRO DE PESSOAS
  */
 DROP TABLE IF EXISTS PESSOA;  
 CREATE TABLE PESSOA (ID_Pessoa            INTEGER         AUTO_INCREMENT PRIMARY KEY
-                    ,TP_Pessoa            CHAR(1)         NOT NULL   --// (F)isica / (J)uridica 
+                    ,TP_Pessoa            CHAR(1)         NOT NULL   -- // (F)isica / (J)uridica 
                     ,NM_Pessoa            VARCHAR(100)    NOT NULL
                     ,NO_Documento         VARCHAR(14)     NOT NULL
                     ,DT_Nascimento        DATE            NOT NULL 
@@ -147,28 +82,17 @@ CREATE TABLE PESSOA (ID_Pessoa            INTEGER         AUTO_INCREMENT PRIMARY
 
 
 /*
-CADASTRO DE FUNÇÃO: 
-- Cargo é a posição que uma pessoa ocupa em uma organização 
-- Função é o conjunto de atividades e responsabilidades associadas a essa posição. 
-*/
-
-DROP TABLE IF EXISTS FUNCAO; 
-CREATE TABLE FUNCAO (ID_Funcao      INTEGER         AUTO_INCREMENT PRIMARY KEY
-                    ,NM_Funcao      VARCHAR(40)     NOT NULL);
-                  
-
-/*
 CADASTRO DO COLABORADOR/FUNCIONARIO
 */
 DROP TABLE IF EXISTS COLABORADOR; 
 CREATE TABLE COLABORADOR (ID_Colaborador  INTEGER         AUTO_INCREMENT PRIMARY KEY
                          ,Matricula       VARCHAR(20)     NOT NULL
-                         ,SN_Temporario   CHAR(1)         NOT NULL   --// Contratos temporários (S/N)  
-                         ,DT_Cadastro     DATETIME        NOT NULL
+                         ,SN_Temporario   CHAR(1)         NOT NULL   -- // Contratos temporários (S/N)  
+                         ,DT_Cadastro     DATETIME        DEFAULT TIMESTAMP
                          ,ID_Pessoa       INT             NOT NULL
                          ,ID_Funcao       INT             NOT NULL
                          
-    FOREIGN KEY (ID_Pessoa) REFERENCES PESSOA (ID_Pessoa)
+   ,FOREIGN KEY (ID_Pessoa) REFERENCES PESSOA (ID_Pessoa)
    ,FOREIGN KEY (ID_Funcao) REFERENCES FUNCAO (ID_Funcao));                          
 
 
@@ -178,16 +102,16 @@ CADASTRO DO USUARIO
 
 DROP TABLE IF EXISTS USUARIO; 
 CREATE TABLE USUARIO (ID_Usuario          INTEGER         AUTO_INCREMENT PRIMARY KEY
-                     ,CD_Usuario          VARCHAR(30)     NOT NULL
-                     ,ID_Colaborador      INTEGER         NOT NULL
+                     ,CD_Usuario          VARCHAR(20)     NOT NULL
                      ,Senha               VARCHAR(50)     NOT NULL
-                     ,DT_Cadastro         DATETIME        DEFAULT TIMESTAMP
-                     ,DT_Ultimo_Acesso    DATETIME
-                     ,DT_Vegencia         DATETIME        NOT NULL
+                     ,DT_Cadastro         DATE            NOT NULL
+                     ,DT_Ultimo_Acesso    DATE
+                     ,DT_Vegencia         DATE            NOT NULL
                      ,SN_Bloqueado        CHAR(1)         NOT NULL  
                      ,ID_Pessoa           INTEGER         NOT NULL 
                     
-  FOREIGN KEY (ID_Colaborador) REFERENCES COLABORADOR(ID_Colaborador) ON DELETE CASCADE);
+  ,FOREIGN KEY (ID_Pessoa) REFERENCES PESSOA(ID_Pessoa));
+  
 
 
 /*
@@ -196,63 +120,86 @@ CREATE TABLE USUARIO (ID_Usuario          INTEGER         AUTO_INCREMENT PRIMARY
  - Chikungunya
  - Manejo Ambiental
  - Censitátio Canino (Leishmaniose)
- - Manejo Ambiental
- 
+
  - Necessário informar o caminho do icone, para que seja possível
    demonstrar no mapa a diferenciação de ocorrências
  - Para cada tipo, somente poderá ser utilizado um cor padrão, não pode duplicar  
 */
+
 DROP TABLE IF EXISTS TIPO_OCORRENCIA; 
 CREATE TABLE TIPO_OCORRENCIA (ID_Tipo_Ocorrencia      INTEGER            AUTO_INCREMENT PRIMARY KEY
                              ,NM_Tipo_Ocorrencia      VARCHAR(100)       NOT NULL 
-                             ,ID_Usuario              INTEGER            NOT NULL 
-                             ,DT_Cadastro             DATETIME           DEFAULT TIMESTAMP
-                             ,Icone                   VARCHAR(100)    --// Selecionar um icone padrão, informando o caminho, será demonstrado no mapa  
-                             ,Cor                     VARCHAR(100));  --// Definir uma cor padrão que será demonstrado no mapa (tabela de cores ?)
+                             ,ID_Usuario              INTEGER             
+                             ,DT_Cadastro             DATE               NOT NULL 
+                             ,Icone                   VARCHAR(100)    -- // Selecionar um icone padrão, informando o caminho, será demonstrado no mapa  
+                             ,Cor                     VARCHAR(100)    -- // Definir uma cor padrão que será demonstrado no mapa (tabela de cores ?)
+                             
+  -- ,FOREIGN KEY (ID_Usuario) REFERENCES USUARIO(ID_Usuario)
+  
+  );                            
+
 
 
 /*
 No caso de visita no mesmo domicilio, recuperar o(s) historico(s) anterior(es) ou mais recente
+
+
+1. O monitoramente constante é ir com frequência a lugares com risco de aparecimento de escorpiões 
+ - cemitérios
+ - campos de futebol
+ - etc 
+
+2. Não há ficha para isso. Em conversa 2 dados devem ser obrigatórios: 
+ - Data da última vista
+ - me disseram que é de 1 em 1 semana (ideia: mensagem de visita após esse tempo no app)
+ - Quantidade de escorpiões pegos no local.
+
+
 */
 DROP TABLE IF EXISTS VISTORIA; 
-CREATE TABLE VISTORIA (ID_Vistoria      INTEGER      AUTO_INCREMENT PRIMARY KEY
-                      ,ID_Colaborador   INTEGER      NOT NULL
-                      ,DT_Cadastro      DATE         DEFAULT TIMESTAMP
-                      ,ID_Rua           INTEGER      NOT NULL
-                      ,NO_Imovel        VARCHAR(10)  NOT NULL
-                      ,NM_Morador       VARCHAR(50)  NOT NULL
-                      ,Telefone         VARCHAR(15)  NOT NULL
-                      ,ST_Imovel        CHAR(1)      NOT NULL   --// (F)echado - (D)esocupado - (R)ecusa da visita
-                      ,SN_Vistoriada    CHAR(1)                 --// (S)im - (N)ão
-                      ,Historico        VARCHAR(255) NOT NULL   --// Historico da visita, ações realizadas, informações relevantes do processo    
-                      ,ID_Ocorrencia    INTEGER      NOT NULL   --// Caso exista alguma ocorrência durante a visita ou alguma solicitação do morador com problemas            
+CREATE TABLE VISTORIA (ID_Vistoria            INTEGER      AUTO_INCREMENT PRIMARY KEY
+                      ,ID_Colaborador         INTEGER      NOT NULL   -- // Agente 
+                      ,DT_Cadastro            DATE                    -- // DEFAULT TIMESTAMP
+                      ,DT_Solicitacao         DATE                    -- // Data da solicitação vistoria
+                      ,DT_Atendimento         Date                    -- // Data da realização da vistoria  
+                      ,ID_Rua                 INTEGER      NOT NULL   -- // Endereço
+                      ,NO_Imovel              VARCHAR(10)  NOT NULL
+                      ,NM_Morador             VARCHAR(50)  NOT NULL
+                      ,NO_Telefone            VARCHAR(15)             
+                      ,DS_Ponto_Referencia    VARCHAR(15)             -- // Ponto de referencia  
+                      ,DS_PSF                 Varchar(30)             -- // PSF (Pronto Socorro da Família)
+                      ,NM_Agente_Comunitario  VARCHAR(20)             -- // Agente Comuntário 
+                      ,ST_Imovel              CHAR(1)      NOT NULL   -- // (T)rabalhado
+                                                                      -- // (F)echado
+                                                                      -- // (D)esocupado
+                                                                      -- // (R)ecusa da visita
+                      ,SN_Vistoriada          CHAR(1)                 -- // (S)im - (N)ão
+                         
+                      ,SN_Acidente            CHAR(1)      NOT NULL   -- // Se ocorreu um acidente (S)im - (N)ão
+                      ,SINAN                  Varchar(10)             -- // Sistema de Informação de Agravos de Notificação (https://portalsinan.saude.gov.br/)      
+                      ,SN_Demanda_Expontanea  CHAR(1)      NOT NULL   -- // Se foi uma demanda expontanea (S)im - (N)ão
+                      ,DS_Observacao          VARCHAR(200)            -- // Observações   
+                      ,SN_Agenda_Retorno      CHAR(1)      NOT NULL   -- // Agendar retorno (S)im - (N)ão, caso seja sim o campo DT_Retorno deverá ser preenchida
+                      ,DT_Retono              DATE                    -- // Data do retorno (trazer 1 semana por padrão, podendo ser alterado), será utilizado para mensagens de aviso    
+ 
+  ,FOREIGN KEY (ID_Colaborador) REFERENCES COLABORADOR(ID_Colaborador)
+  ,FOREIGN KEY (ID_Rua) REFERENCES RUA(ID_Rua) );
+  
+  
+
 
 /*
 Itens que por padrão devem ser vistoriados. Deve haver documentação sobre este processo.
 */
-Vistoria_Item (ID_Vistoria_Item
-              ,ID_Vistoria
-              ,)
+DROP TABLE IF EXISTS VISTORIA_ITEM; 
+CREATE TABLE VISTORIA_ITEM (ID_Vistoria_Item      INTEGER      AUTO_INCREMENT PRIMARY KEY
+                           ,ID_Vistoria           INTEGER      NOT NULL
+                           ,ID_Tipo_Ocorrencia    INTEGER      NOT NULL   -- // Caso exista alguma ocorrência durante a visita ou alguma solicitação do morador com problemas 
+                           ,QT_Amostra_Coletada   INTEGER                 -- // Qtde de insetos, larvas, etc        
+                           ,DS_Ocorrencia         VARCHAR(255) NOT NULL   -- // Historico da visita, ações realizadas, informações relevantes do processo 
 
-CREATE TABLE OCORRENCIA (ID_Ocorrencia        INTEGER         AUTO_INCREMENT PRIMARY KEY
-                        ,NO_Endereco          VARCHAR(10)     NOT NULL 
-                        ,DT_Cadastro          DATE            TIMESTAMP
-                        ,Historico            VARCHAR(300)    NOT NULL 
-                        ,Latitude             DECIMAL(9,6)
-                        ,Longitude            DECIMAL(9,6) 
-                        ,ST_Status            Char(1)   
-                        ,ID_Tipo_Ocorrencia   INT NOT NULL 
-                        ,ID_Usuario           INT NOT NULL
-                        ,ID_Rua               INT NOT NULL   
-
- ,FOREIGN KEY (ID_TipoOcorrencia) REFERENCES TIPO_OCORRENCIA(ID_TipoOcorrencia) ON DELETE CASCADE
- ,FOREIGN KEY (ID_Usuario)        REFERENCES USUARIO(ID_Usuario)                ON DELETE CASCADE
- 
- ,FOREIGN KEY (ID_Rua));        
- 
- REFERENCES ENDERECO(ID_Rua)              ON DELETE CASCADE);
-
-
+ ,FOREIGN KEY (ID_Vistoria) REFERENCES VISTORIA(ID_Vistoria)
+ ,FOREIGN KEY (ID_Tipo_Ocorrencia) REFERENCES TIPO_OCORRENCIA(ID_Tipo_Ocorrencia) );
 
 
 
