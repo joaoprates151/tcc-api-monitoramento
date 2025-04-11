@@ -1,16 +1,16 @@
 const db = require('../dataBase/connection');
 
 module.exports = {
-    async listarLocalidades(request, response) {
+    async listarPessoas(request, response) {
         try {
 
-            const sql = 'SELECT Id_localidade, NM_Localidade, UF_Localidade FROM bd_tcc_infonet_224_monit_prev.localidade'
+            const sql = 'SELECT ID_Pessoa, TP_Pessoa, NM_Pessoa, NO_Documento, DT_Nascimento,no_imovel, Complemento, no_Telefone, Email, ID_Rua FROM pessoa;'
 
             const [rows] = await db.query(sql)
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Lista de Localidades',
+                mensagem: 'Lista Pessoas',
                 itens: rows.length,
                 dados: rows,
             });
@@ -23,12 +23,12 @@ module.exports = {
         } 
     },
 
-    async atualizarLocalidades(request, response) {
+    async atualizarPessoas(request, response) {
         try {
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Atualizar de Localidades',
+                mensagem: 'Atualizar Pessoas',
                 dados: null
             });
         } catch (error) {
@@ -40,12 +40,12 @@ module.exports = {
         } 
     },
 
-    async inserirLocalidades(request, response) {
+    async inserirPessoas(request, response) {
         try {
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Inserir Localidades',
+                mensagem: 'Inserir Pessoas',
                 dados: null
             });
         } catch (error) {
@@ -57,12 +57,12 @@ module.exports = {
         } 
     },
 
-    async excluirLocalidades(request, response) {
+    async excluirPessoas(request, response) {
         try {
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Excluir Localidades',
+                mensagem: 'Excluir Pessoas',
                 dados: null
             });
         } catch (error) {

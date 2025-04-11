@@ -1,16 +1,16 @@
 const db = require('../dataBase/connection');
 
 module.exports = {
-    async listarLocalidades(request, response) {
+    async listarSetores(request, response) {
         try {
 
-            const sql = 'SELECT Id_localidade, NM_Localidade, UF_Localidade FROM bd_tcc_infonet_224_monit_prev.localidade'
+            const sql = 'SELECT id_setor, nm_setor FROM bd_tcc_infonet_224_monit_prev.setor;'
 
             const [rows] = await db.query(sql)
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Lista de Localidades',
+                mensagem: 'Lista de Setores',
                 itens: rows.length,
                 dados: rows,
             });
@@ -23,12 +23,12 @@ module.exports = {
         } 
     },
 
-    async atualizarLocalidades(request, response) {
+    async atualizarSetores(request, response) {
         try {
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Atualizar de Localidades',
+                mensagem: 'Atualizar de Setores',
                 dados: null
             });
         } catch (error) {
@@ -40,12 +40,12 @@ module.exports = {
         } 
     },
 
-    async inserirLocalidades(request, response) {
+    async inserirSetores(request, response) {
         try {
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Inserir Localidades',
+                mensagem: 'Inserir Setores',
                 dados: null
             });
         } catch (error) {
@@ -57,12 +57,12 @@ module.exports = {
         } 
     },
 
-    async excluirLocalidades(request, response) {
+    async excluirSetores(request, response) {
         try {
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Excluir Localidades',
+                mensagem: 'Excluir Setores',
                 dados: null
             });
         } catch (error) {

@@ -1,16 +1,16 @@
 const db = require('../dataBase/connection');
 
 module.exports = {
-    async listarLocalidades(request, response) {
+    async listarVisitas(request, response) {
         try {
 
-            const sql = 'SELECT Id_localidade, NM_Localidade, UF_Localidade FROM bd_tcc_infonet_224_monit_prev.localidade'
+            const sql = 'SELECT  ID_Colaborador, DT_Cadastro, DT_Solicitacao, DT_Atendimento, ID_Rua, NO_Imovel, NM_Morador, NO_Telefone, DS_Ponto_Referencia, DS_PSF, NM_Agente_Comunitario, ST_Imovel, SN_Vistoriada, SN_Acidente, SINAN, SN_Demanda_Expontanea, DS_Observacao, SN_Agenda_Retorno, DT_Retono FROM visita;'
 
             const [rows] = await db.query(sql)
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Lista de Localidades',
+                mensagem: 'Lista de Visitas',
                 itens: rows.length,
                 dados: rows,
             });
@@ -23,12 +23,12 @@ module.exports = {
         } 
     },
 
-    async atualizarLocalidades(request, response) {
+    async atualizarVisitas(request, response) {
         try {
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Atualizar de Localidades',
+                mensagem: 'Atualizar Visitas',
                 dados: null
             });
         } catch (error) {
@@ -40,12 +40,12 @@ module.exports = {
         } 
     },
 
-    async inserirLocalidades(request, response) {
+    async inserirVisitas(request, response) {
         try {
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Inserir Localidades',
+                mensagem: 'Inserir Visitas',
                 dados: null
             });
         } catch (error) {
@@ -57,12 +57,12 @@ module.exports = {
         } 
     },
 
-    async excluirLocalidades(request, response) {
+    async excluirVisitas(request, response) {
         try {
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Excluir Localidades',
+                mensagem: 'Excluir Visitas',
                 dados: null
             });
         } catch (error) {

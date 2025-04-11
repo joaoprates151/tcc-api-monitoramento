@@ -1,16 +1,16 @@
 const db = require('../dataBase/connection');
 
 module.exports = {
-    async listarLocalidades(request, response) {
+    async listarTipo_ocorrencias(request, response) {
         try {
 
-            const sql = 'SELECT Id_localidade, NM_Localidade, UF_Localidade FROM bd_tcc_infonet_224_monit_prev.localidade'
+            const sql = 'SELECT ID_Tipo_Ocorrencia, NM_Tipo_Ocorrencia, ID_Usuario_cadastro, DT_Cadastro, Icone, Cor FROM tipo_ocorrencia;'
 
             const [rows] = await db.query(sql)
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Lista de Localidades',
+                mensagem: 'Lista de Tipos de ocorrência',
                 itens: rows.length,
                 dados: rows,
             });
@@ -23,12 +23,12 @@ module.exports = {
         } 
     },
 
-    async atualizarLocalidades(request, response) {
+    async atualizarTipo_ocorrencias(request, response) {
         try {
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Atualizar de Localidades',
+                mensagem: 'Atualizar Tipos de ocorrência',
                 dados: null
             });
         } catch (error) {
@@ -40,12 +40,12 @@ module.exports = {
         } 
     },
 
-    async inserirLocalidades(request, response) {
+    async InserirTipo_ocorrencias(request, response) {
         try {
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Inserir Localidades',
+                mensagem: 'Inserir Tipos de ocorrência',
                 dados: null
             });
         } catch (error) {
@@ -57,12 +57,12 @@ module.exports = {
         } 
     },
 
-    async excluirLocalidades(request, response) {
+    async excluirTipo_ocorrencias(request, response) {
         try {
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Excluir Localidades',
+                mensagem: 'Excluir Tipos de ocorrência',
                 dados: null
             });
         } catch (error) {

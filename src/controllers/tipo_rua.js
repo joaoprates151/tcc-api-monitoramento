@@ -1,16 +1,16 @@
 const db = require('../dataBase/connection');
 
 module.exports = {
-    async listarLocalidades(request, response) {
+    async listarTipo_ruas(request, response) {
         try {
 
-            const sql = 'SELECT Id_localidade, NM_Localidade, UF_Localidade FROM bd_tcc_infonet_224_monit_prev.localidade'
+            const sql = 'SELECT ID_Tipo_Rua, NM_Tipo_Rua FROM bd_tcc_infonet_224_monit_prev.tipo_rua;'
 
             const [rows] = await db.query(sql)
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Lista de Localidades',
+                mensagem: 'Lista de Tipos ruas',
                 itens: rows.length,
                 dados: rows,
             });
@@ -23,12 +23,12 @@ module.exports = {
         } 
     },
 
-    async atualizarLocalidades(request, response) {
+    async atualizarTipo_ruas(request, response) {
         try {
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Atualizar de Localidades',
+                mensagem: 'Atualizar Tipos ruas',
                 dados: null
             });
         } catch (error) {
@@ -40,12 +40,12 @@ module.exports = {
         } 
     },
 
-    async inserirLocalidades(request, response) {
+    async InserirTipo_ruas(request, response) {
         try {
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Inserir Localidades',
+                mensagem: 'Inserir Tipos ruas',
                 dados: null
             });
         } catch (error) {
@@ -57,12 +57,12 @@ module.exports = {
         } 
     },
 
-    async excluirLocalidades(request, response) {
+    async excluirTipo_ruas(request, response) {
         try {
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Excluir Localidades',
+                mensagem: 'Excluir Tipos ruas',
                 dados: null
             });
         } catch (error) {
