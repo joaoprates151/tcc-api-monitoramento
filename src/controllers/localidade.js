@@ -25,11 +25,20 @@ module.exports = {
 
     async atualizarLocalidades(request, response) {
         try {
-            return response.status(200).json({
 
+            const {NM_Localidade, UF_Localidade} = request.body
+            const {ID_localidade} = request.params
+
+            const sql = 'update localidade set NM_Localidade = ?,  UF_Localidade = ? where ID_localidade = ?'
+
+            const values = [NM_Localidade, UF_Localidade, ID_localidade]
+
+            const dadosAtualizados = await db.query(sql, values)
+             
+            return response.status(200).json({
                 sucesso: true,
-                mensagem: 'Atualizar de Localidades',
-                dados: null
+                mensagem: `Localidade ${ID_localidade} atualizado com sucesso!`,
+                dados: dadosAtualizados[0].affectedRows
             });
         } catch (error) {
             return response.status(500).json({

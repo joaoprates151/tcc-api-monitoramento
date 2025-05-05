@@ -11,8 +11,9 @@ const PessoasController = require('../pessoa')
 
 router.get('/localidades', LocalidadeController.listarLocalidades)
 router.post('/localidades', LocalidadeController.inserirLocalidades)
-router.patch('/localidades', LocalidadeController.atualizarLocalidades)
+router.patch('/localidades/:ID_localidade', LocalidadeController.atualizarLocalidades)
 router.delete('/localidades', LocalidadeController.excluirLocalidades)
+
 
 router.get('/visitas', VisitaController.listarVisitas)
 router.post('/visitas', VisitaController.inserirVisitas)
@@ -41,7 +42,7 @@ router.delete('/setores', SetoresController.excluirSetores)
 
 router.get('/pessoas', PessoasController.listarPessoas)
 router.post('/pessoas', PessoasController.inserirPessoas)
-router.patch('/pessoas', PessoasController.atualizarPessoas)
+router.patch('/pessoas/:ID_pessoa', PessoasController.atualizarPessoas)
 router.delete('/pessoas', PessoasController.excluirPessoas)
 
 
