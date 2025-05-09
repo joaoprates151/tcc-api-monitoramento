@@ -80,10 +80,28 @@ module.exports = {
 
     async excluirLocalidades(request, response) {
         try {
+            const {ID_localidade} = request.params
+
+            const sql = 'delete from localidade where Id_localidade = ?'
+
+            const values = [ID_localidade]
+            
+
+            const [results] = await db.query(sql, values)
+
+            if( results.affectedRows === 0 )
+            {
+                return response.status(404).json({
+                    sucesso: false,
+                    mensagem: `Usuário ${id} não encontrado!`,
+                    dados: null
+                })
+            }
+
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Excluir Localidades',
+                mensagem: `Usuário ${id} excluido com sucesso!`,
                 dados: null
             });
         } catch (error) {

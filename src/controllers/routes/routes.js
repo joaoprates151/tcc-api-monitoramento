@@ -12,7 +12,7 @@ const PessoasController = require('../pessoa')
 router.get('/localidades', LocalidadeController.listarLocalidades)
 router.post('/localidades', LocalidadeController.inserirLocalidades)
 router.patch('/localidades/:ID_localidade', LocalidadeController.atualizarLocalidades)
-router.delete('/localidades', LocalidadeController.excluirLocalidades)
+router.delete('/localidades/:ID_localidade', LocalidadeController.excluirLocalidades)
 
 
 router.get('/visitas', VisitaController.listarVisitas)
