@@ -25,11 +25,20 @@ module.exports = {
 
     async atualizarSetores(request, response) {
         try {
-            return response.status(200).json({
 
+            const {NM_setor} = request.body
+            const {ID_Setor} = request.params
+
+            const sql = 'update setor set  NM_setor = ? where ID_Setor = ?'
+
+            const values = [NM_setor, ID_Setor]
+
+            const dadosAtualizados = await db.query(sql, values)
+             
+            return response.status(200).json({
                 sucesso: true,
-                mensagem: 'Atualizar de Setores',
-                dados: null
+                mensagem: `Setor ${ID_Setor} atualizado com sucesso!`,
+                dados: dadosAtualizados[0].affectedRows
             });
         } catch (error) {
             return response.status(500).json({

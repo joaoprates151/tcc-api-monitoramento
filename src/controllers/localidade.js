@@ -93,7 +93,7 @@ module.exports = {
             {
                 return response.status(404).json({
                     sucesso: false,
-                    mensagem: `Usuário ${id} não encontrado!`,
+                    mensagem: `Localidade ${ID_localidade} não encontrado!`,
                     dados: null
                 })
             }
@@ -101,7 +101,7 @@ module.exports = {
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: `Usuário ${id} excluido com sucesso!`,
+                mensagem: `Localidade ${ID_localidade} excluida com sucesso!`,
                 dados: null
             });
         } catch (error) {
