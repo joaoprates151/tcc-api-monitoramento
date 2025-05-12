@@ -17,7 +17,7 @@ router.delete('/localidades/:ID_localidade', LocalidadeController.excluirLocalid
 
 router.get('/visitas', VisitaController.listarVisitas)
 router.post('/visitas', VisitaController.inserirVisitas)
-router.patch('/visitas', VisitaController.atualizarVisitas)
+router.patch('/visitas:/ID_Visita', VisitaController.atualizarVisitas)
 router.delete('/visitas', VisitaController.excluirVisitas)
 
 router.get('/visitas_itens', Visita_itensController.listarVisitas_itens)
@@ -38,7 +38,7 @@ router.delete('/tipo_ocorrencia', Tipo_ocorrenciasController.excluirTipo_ocorren
 router.get('/setores', SetoresController.listarSetores)
 router.post('/setores', SetoresController.inserirSetores)
 router.patch('/setores/:ID_Setor', SetoresController.atualizarSetores)
-router.delete('/setores', SetoresController.excluirSetores)
+router.delete('/setores/:ID_Setor', SetoresController.excluirSetores)
 
 router.get('/pessoas', PessoasController.listarPessoas)
 router.post('/pessoas', PessoasController.inserirPessoas)

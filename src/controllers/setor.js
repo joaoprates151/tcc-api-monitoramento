@@ -29,7 +29,8 @@ module.exports = {
             const {NM_setor} = request.body
             const {ID_Setor} = request.params
 
-            const sql = 'update setor set  NM_setor = ? where ID_Setor = ?'
+            const sql = 'update setor set NM_setor = ? where ID_Setor = ?'
+            console.log(NM_setor)
 
             const values = [NM_setor, ID_Setor]
 
@@ -51,11 +52,26 @@ module.exports = {
 
     async inserirSetores(request, response) {
         try {
+
+            const {NM_Setor} = request.body
+
+            const sql = 'insert into setor (NM_Setor) values (?)'
+
+            console.log(NM_Setor);
+            
+
+            const values = [NM_Setor]
+            
+
+            const [results] = await db.query(sql, values)
+
+            const setorId = results.insertId
+
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Inserir Setores',
-                dados: null
+                mensagem: 'Setor Inserido',
+                dados: setorId
             });
         } catch (error) {
             return response.status(500).json({
@@ -68,10 +84,28 @@ module.exports = {
 
     async excluirSetores(request, response) {
         try {
+            const {ID_Setor} = request.params
+
+            const sql = 'delete from setor where ID_Setor = ?'
+
+            const values = [ID_Setor]
+            
+
+            const [results] = await db.query(sql, values)
+
+            if( results.affectedRows === 0 )
+            {
+                return response.status(404).json({
+                    sucesso: false,
+                    mensagem: `Setor ${ID_Setor} não encontrado!`,
+                    dados: null
+                })
+            }
+
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Excluir Setores',
+                mensagem: `Setor ${ID_Setor} excluido com sucesso!`,
                 dados: null
             });
         } catch (error) {
