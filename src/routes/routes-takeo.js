@@ -13,3 +13,6 @@ router.patch('/tiporua/:id_tipo_rua', TipoRuaControler.atualizarTipoRua);
 router.delete('/tiporua/:id_tipo_rua', TipoRuaControler.excluirTipoRua);
 
 module.exports = router;
+
+// clonado
+
