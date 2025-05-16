@@ -9,3 +9,5 @@ router.patch('/bairro', BairroController.inserirBairros);
 router.delete('/bairro/:id', BairroController.excluirBairros); //params
  
 module.exports = router;
+
+// clonado
