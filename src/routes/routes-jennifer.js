@@ -4,9 +4,9 @@ const router = express.Router();
 const BairroController = require('../controllers/bairro');
 
 router.get('/bairro', BairroController.listarBairros);
-router.post('/bairro/:id', BairroController.atualizarBairros);
-router.patch('/bairro', BairroController.inserirBairros);
-router.delete('/bairro/:id', BairroController.excluirBairros); //params
+router.post('/bairro', BairroController.inserirBairros);
+router.patch('/bairro/:id', BairroController.atualizarBairros);
+router.delete('/bairro/:id', BairroController.excluirBairros); 
  
 module.exports = router;
 

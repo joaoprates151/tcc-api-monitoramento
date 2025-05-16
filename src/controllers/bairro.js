@@ -30,18 +30,18 @@ module.exports = {
 
             const sql = `
                  INSERT INTO bairro
-                     (ID_Bairro, NM_Bairro, ID_Setor)
+                     (NM_Bairro, ID_Setor)
                  VALUE
-                     (?,?,?)`;
+                     (?,?)`;
 
             const values = [ nm_bairro, id_setor];
 
             const [result] = await db.query(sql, values);
 
             const dados = {
-                id: result.insertId,
-                nm_bairro,
-                id_setor
+                id: result.insertId
+                //nm_bairro,
+                //id_setor
             };
 
             return response.status(200).json({
