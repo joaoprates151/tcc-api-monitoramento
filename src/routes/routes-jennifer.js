@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const BairroController = require('../bairro');
+const BairroController = require('../controllers/bairro');
 
 router.get('/bairro', BairroController.listarBairros);
 router.post('/bairro/:id', BairroController.atualizarBairros);
