@@ -80,10 +80,28 @@ module.exports = {
 
     async excluirVisitas_itens(request, response) {
         try {
+            const {ID_Visita_Item} = request.params
+
+            const sql = 'delete from visita_item where ID_Visita_Item = ?'
+
+            const values = [ID_Visita_Item]
+            
+
+            const [results] = await db.query(sql, values)
+
+            if( results.affectedRows === 0 )
+            {
+                return response.status(404).json({
+                    sucesso: false,
+                    mensagem: `Visita item ${ID_Visita_Item} não encontrado!`,
+                    dados: null
+                })
+            }
+
             return response.status(200).json({
 
                 sucesso: true,
-                mensagem: 'Excluir Visitas_Itens',
+                mensagem: `Visita item ${ID_Visita_Item} excluida com sucesso!`,
                 dados: null
             });
         } catch (error) {

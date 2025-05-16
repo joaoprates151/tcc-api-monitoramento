@@ -4,7 +4,6 @@ const router = express.Router()
 const LocalidadeController = require('../controllers/localidade')
 const VisitaController = require('../controllers/visita')
 const Visita_itensController = require('../controllers/visita_item')
-const Tipo_ruasController = require('../controllers/tipo_rua')
 const Tipo_ocorrenciasController = require('../controllers/tipo_ocorrencia')
 const SetoresController = require('../controllers/setor')
 const PessoasController = require('../controllers/pessoa')
@@ -37,15 +36,10 @@ router.post('/visita_itens', Visita_itensController.inserirVisitas_itens)
 router.patch('/visita_itens/:ID_Visita_Item', Visita_itensController.atualizarVisitas_itens)
 router.delete('/visita_itens/:ID_Visita_Item', Visita_itensController.excluirVisitas_itens)
 
-router.get('/tipo_ruas', Tipo_ruasController.listarTipo_ruas)
-router.post('/tipo_ruas', Tipo_ruasController.InserirTipo_ruas)
-router.patch('/tipo_ruas', Tipo_ruasController.atualizarTipo_ruas)
-router.delete('/tipo_ruas', Tipo_ruasController.excluirTipo_ruas)
-
 router.get('/tipo_ocorrencia', Tipo_ocorrenciasController.listarTipo_ocorrencias)
 router.post('/tipo_ocorrencia', Tipo_ocorrenciasController.InserirTipo_ocorrencias)
-router.patch('/tipo_ocorrencia', Tipo_ocorrenciasController.atualizarTipo_ocorrencias)
-router.delete('/tipo_ocorrencia', Tipo_ocorrenciasController.excluirTipo_ocorrencias)
+router.patch('/tipo_ocorrencia/:ID_Tipo_Ocorrencia', Tipo_ocorrenciasController.atualizarTipo_ocorrencias)
+router.delete('/tipo_ocorrencia/:ID_Tipo_Ocorrencia', Tipo_ocorrenciasController.excluirTipo_ocorrencias)
 
 
 
