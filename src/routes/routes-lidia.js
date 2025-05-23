@@ -12,8 +12,8 @@ const ColaboradorController = require('../controllers/colaborador');
 
 router.get('/colaborador', ColaboradorController.listarColaborador);
 router.post('/colaborador', ColaboradorController.inserirColaborador);
-router.patch('/colaborador', ColaboradorController.atualizarColaborador);
-router.delete('/colaborador', ColaboradorController.excluirColaborador);
+router.patch('/colaborador/:id', ColaboradorController.atualizarColaborador);
+router.delete('/colaborador/:id', ColaboradorController.excluirColaborador);
 
 
 const FuncaoController = require('../controllers/funcao');
