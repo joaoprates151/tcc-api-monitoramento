@@ -1,16 +1,16 @@
 const db = require('../dataBase/connection');
 
 module.exports ={
-    async listarColaborador(request, response){
+    async listarRua(request, response){
         try {
 
-            const sql= 'SELECT ID_Colaborador, Matricula, SN_Temporario, DT_Cadastro, ID_Pessoa, ID_Funcao FROM colaborador;';
+            const sql= 'SELECT ID_Rua, NM_Rua, CEP, Numeracao, ID_Bairro, ID_Localidade, ID_Tipo_rua FROM rua;';
             
             const [rows] = await db.query(sql);
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: 'Lista de Colaborador.',
+                mensagem: 'Lista de Ruas',
                 itens: rows.length,
                 dados: rows
             });
@@ -23,22 +23,22 @@ module.exports ={
         }
     },
 
-    async inserirColaborador(request, response){
+    async inserirRua(request, response){
         try {
 
-            const { Matricula, SN_Temporario, DT_Cadastro, ID_Pessoa, ID_Funcao, ID_Usuario_Cadastro}= request.body
-            const sql= 'INSERT INTO COLABORADOR (Matricula, SN_Temporario, DT_Cadastro, ID_Pessoa, ID_Funcao,ID_Usuario_Cadastro) value (?,?,?,?,?,?)';
+            const { NM_Rua, CEP, Numeracao, ID_Bairro, ID_Localidade, ID_Tipo_rua }= request.body
+            const sql= 'INSERT INTO Rua (NM_Rua, CEP, Numeracao, ID_Bairro, ID_Localidade, ID_Tipo_rua) value (?,?,?,?,?,?)';
 
-            const values = [Matricula, SN_Temporario, DT_Cadastro, ID_Pessoa, ID_Funcao, ID_Usuario_Cadastro]
+            const values = [NM_Rua, CEP, Numeracao, ID_Bairro, ID_Localidade, ID_Tipo_rua]
             
             const [ressults] = await db.query(sql, values);
 
-            const colaborador_id = ressults.insertId
+            const rua_id = ressults.insertId
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: 'Inserir Colaborador.',
-                dados:colaborador_id
+                mensagem: 'Rua Inserida',
+                dados: rua_id 
             });
         }catch (error) {
             return response.status(500).json({
@@ -49,22 +49,22 @@ module.exports ={
         }
     },
 
-    async atualizarColaborador(request, response){
+    async atualizarRua(request, response){
         try {
 
-            const { Matricula, SN_Temporario, DT_Cadastro, ID_Pessoa, ID_Funcao,ID_Usuario_Cadastro}= request.body
+            const {NM_Rua, CEP, Numeracao, ID_Bairro, ID_Localidade, ID_Tipo_rua}= request.body
 
-            const { id } = request.params;
+            const { ID_Rua } = request.params;
 
-            const sql= 'UPDATE usuario SET  Matricula =?, SN_Temporario =?, DT_Cadastro =?, ID_Pessoa =?, ID_Funcao =?,ID_Usuario_Cadastro =? WHERE ID_Colaborador = ?';
+            const sql= 'UPDATE Rua SET  NM_Rua =?, CEP =?, Numeracao =?, ID_Bairro =?, ID_Localidade =?,ID_Tipo_rua =? WHERE ID_Rua = ?';
         
-            const values = [ Matricula, SN_Temporario, DT_Cadastro, ID_Pessoa, ID_Funcao,ID_Usuario_Cadastro, id]
+            const values = [ NM_Rua, CEP, Numeracao, ID_Bairro, ID_Localidade, ID_Tipo_rua, ID_Rua ]
 
             const atualizarDados = await db.query(sql, values);
         
             return response.status(200).json({
                 sucesso: true,
-                mensagem: `Colaborador ${id} Atualização de Colaboradores!`,
+                mensagem: `Rua ${ID_Rua} atualizada com sucesso!`,
                 dados: atualizarDados[0].affectedRows
             });
         }catch (error) {
@@ -76,24 +76,24 @@ module.exports ={
         }
     },
 
-    async excluirColaborador(request, response){
+    async excluirRua(request, response){
         try {
-            const { id } = request.params;
-            const sql= 'DELETE FROM colaborador WHERE ID_Colaborador = ?';
-            const values = [ id ]
+            const { ID_Rua } = request.params;
+            const sql= 'DELETE FROM rua WHERE ID_Rua = ?';
+            const values = [ ID_Rua ]
             const [result] = await db.query(sql, values);
 
             if (result.affectedRows === 0) {
                 return response.status(404).json({
                     sucesso: false,
-                    mensagem: 'Colaborador não encontrado.',
+                    mensagem: 'Rua não encontrada.',
                     dados: null
                 });
             }
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: 'Excluir Colaborador.',
+                mensagem: 'Rua excluída',
                 dados:null
             });
         }catch (error) {
