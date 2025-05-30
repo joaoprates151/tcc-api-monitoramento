@@ -8,6 +8,7 @@ const Tipo_ocorrenciasController = require('../controllers/tipo_ocorrencia')
 const SetoresController = require('../controllers/setor')
 const PessoasController = require('../controllers/pessoa')
 const RuasController = require('../controllers/rua')
+const Unidade_saudeController = require('../controllers/unidade_saude')
 
 router.get('/localidades', LocalidadeController.listarLocalidades)
 router.post('/localidades', LocalidadeController.inserirLocalidades)
@@ -44,6 +45,11 @@ router.get('/ruas', RuasController.listarRua)
 router.post('/ruas', RuasController.inserirRua)
 router.patch('/ruas/:ID_Rua', RuasController.atualizarRua)
 router.delete('/ruas/:ID_Rua', RuasController.excluirRua)
+
+router.get('/unidade_saude', Unidade_saudeController.listarUnidades_saude)
+router.post('/unidade_saude', Unidade_saudeController.inserirUnidades_saude)
+router.patch('/unidade_saude/:ID_Unidade_Saude', Unidade_saudeController.atualizarUnidades_saude)
+router.delete('/unidade_saude/:ID_Unidade_Saude', Unidade_saudeController.excluirUnidades_saude)
 
 
 
