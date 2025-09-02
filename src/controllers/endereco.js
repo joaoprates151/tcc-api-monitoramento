@@ -1,16 +1,16 @@
 const db = require('../dataBase/connection');
 
 module.exports ={
-    async listarColaborador(request, response){
+    async listarEndereco(request, response){
         try {
 
-            const sql= 'SELECT ID_Colaborador, Matricula, SN_Temporario, DT_Cadastro, ID_Pessoa, ID_Funcao FROM colaborador;';
+            const sql= 'SELECT ID_Endereco, ID_Pessoa, ID_rua, NO_Imovel, complemento, DS_Ponto_Referecia, LA_Latitude, LO_Longitude FROM endereco; ';
             
             const [rows] = await db.query(sql);
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: 'Lista de Colaborador.',
+                mensagem: 'Lista de Endereços.',
                 itens: rows.length,
                 dados: rows
             });
@@ -23,22 +23,22 @@ module.exports ={
         }
     },
 
-    async inserirColaborador(request, response){
+      async inserirEndereco(request, response){
         try {
 
-            const { Matricula, SN_Temporario, DT_Cadastro, ID_Pessoa, ID_Funcao, ID_Usuario_Cadastro}= request.body
-            const sql= 'INSERT INTO COLABORADOR (Matricula, SN_Temporario, DT_Cadastro, ID_Pessoa, ID_Funcao,ID_Usuario_Cadastro) value (?,?,?,?,?,?)';
+            const { ID_Endereco, ID_Pessoa, ID_rua, NO_Imovel, complemento, DS_Ponto_Referecia, LA_Latitude, LO_Longitude }= request.body
+            const sql= 'INSERT INTO Endereco (ID_Endereco, ID_Pessoa, ID_rua, NO_Imovel, complemento, DS_Ponto_Referecia, LA_Latitude, LO_Longitude) value (?,?,?,?,?,?,?,?)';
 
-            const values = [Matricula, SN_Temporario, DT_Cadastro, ID_Pessoa, ID_Funcao, ID_Usuario_Cadastro]
+            const values = [ID_Endereco, ID_Pessoa, ID_rua, NO_Imovel, complemento, DS_Ponto_Referecia, LA_Latitude, LO_Longitude]
             
             const [ressults] = await db.query(sql, values);
 
-            const colaborador_id = ressults.insertId
+            const rua_id = ressults.insertId
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: 'Inserir Colaborador.',
-                dados:colaborador_id
+                mensagem: 'Endereço Inserido',
+                dados: rua_id 
             });
         }catch (error) {
             return response.status(500).json({
@@ -49,22 +49,22 @@ module.exports ={
         }
     },
 
-    async atualizarColaborador(request, response){
+    async atualizarEndereco(request, response){
         try {
 
-            const { Matricula, SN_Temporario, DT_Cadastro, ID_Pessoa, ID_Funcao,ID_Usuario_Cadastro}= request.body
+            const { ID_Pessoa, ID_rua, NO_Imovel, complemento, DS_Ponto_Referecia, LA_Latitude, LO_Longitude}= request.body
 
-            const { id } = request.params;
+            const { ID_Endereco } = request.params;
 
-            const sql= 'UPDATE usuario SET  Matricula =?, SN_Temporario =?, DT_Cadastro =?, ID_Pessoa =?, ID_Funcao =?,ID_Usuario_Cadastro =? WHERE ID_Colaborador = ?';
+            const sql= 'UPDATE Endereco SET ID_Pessoa= ?, ID_rua= ?, NO_Imovel= ?, complemento= ?, DS_Ponto_Referecia= ?, LA_Latitude= ?, LO_Longitude= ?';
         
-            const values = [ Matricula, SN_Temporario, DT_Cadastro, ID_Pessoa, ID_Funcao,ID_Usuario_Cadastro, id]
+            const values = [ ID_Pessoa, ID_rua, NO_Imovel, complemento, DS_Ponto_Referecia, LA_Latitude, LO_Longitude ]
 
             const atualizarDados = await db.query(sql, values);
         
             return response.status(200).json({
                 sucesso: true,
-                mensagem: `Colaborador ${id} Atualização de Colaboradores!`,
+                mensagem: `Endereço ${ID_Endereco} atualizado com sucesso!`,
                 dados: atualizarDados[0].affectedRows
             });
         }catch (error) {
@@ -76,24 +76,24 @@ module.exports ={
         }
     },
 
-    async excluirColaborador(request, response){
+    async excluirEndereco(request, response){
         try {
-            const { id } = request.params;
-            const sql= 'DELETE FROM colaborador WHERE ID_Colaborador = ?';
-            const values = [ id ]
+            const { ID_Rua } = request.params;
+            const sql= 'DELETE FROM enderco WHERE ID_Endereco = ?';
+            const values = [ ID_Rua ]
             const [result] = await db.query(sql, values);
 
             if (result.affectedRows === 0) {
                 return response.status(404).json({
                     sucesso: false,
-                    mensagem: 'Colaborador não encontrado.',
+                    mensagem: 'Endereço não encontrado.',
                     dados: null
                 });
             }
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: 'Excluir Colaborador.',
+                mensagem: 'Endereço excluído',
                 dados:null
             });
         }catch (error) {

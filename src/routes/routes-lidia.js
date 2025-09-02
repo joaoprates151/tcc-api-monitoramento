@@ -8,13 +8,6 @@ router.post('/usuarios', UsuarioController.inserirUsuarios);
 router.patch('/usuarios/:id', UsuarioController.atualizarUsuarios);
 router.delete('/usuarios/:id', UsuarioController.excluirUsuarios);
 
-const ColaboradorController = require('../controllers/colaborador');
-
-router.get('/colaborador', ColaboradorController.listarColaborador);
-router.post('/colaborador', ColaboradorController.inserirColaborador);
-router.patch('/colaborador/:id', ColaboradorController.atualizarColaborador);
-router.delete('/colaborador/:id', ColaboradorController.excluirColaborador);
-
 
 const FuncaoController = require('../controllers/funcao');
 
@@ -23,6 +16,11 @@ router.post('/funcao', FuncaoController.inserirFuncao);
 router.patch('/funcao', FuncaoController.atualizarFuncao);
 router.delete('/funcao', FuncaoController.excluirFuncao);
 
+const EnderecosController = require('../controllers/endereco');
 
+router.get('/enderecos', EnderecosController.listarEndereco);
+router.post('/enderecos', EnderecosController.inserirEndereco);
+router.patch('/enderecos/:ID_Endereco', EnderecosController.atualizarEndereco);
+router.delete('/enderecos/:ID_Endereco', EnderecosController.excluirEndereco);
 
 module.exports = router;
