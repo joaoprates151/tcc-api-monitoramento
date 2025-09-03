@@ -4,7 +4,7 @@ module.exports = {
     async listarVisitas_itens(request, response) {
         try {
 
-            const sql = 'SELECT ID_Visita_Item, ID_Visita, ID_Tipo_Ocorrencia, DT_Visita, QT_Amostra_Coletada, DS_Ocorrencia	FROM visita_item;'
+            const sql = 'SELECT ID_Visita_Item, ID_Visita, ID_Tipo_Ocorrencia, SINAN, DS_Ocorrencia FROM visita_item;'
 
             const [rows] = await db.query(sql)
             return response.status(200).json({
@@ -26,12 +26,12 @@ module.exports = {
     async atualizarVisitas_itens(request, response) {
         try {
 
-            const {ID_Visita, ID_Tipo_Ocorrencia, DT_Visita, QT_Amostra_Coletada, DS_Ocorrencia, NM_Morador, DT_Nascimento, ID_Colaborador} = request.body
+            const {ID_Visita, ID_Tipo_Ocorrencia, SINAN, DS_Ocorrencia} = request.body
             const {ID_Visita_Item} = request.params
 
-            const sql = 'update visita_item set ID_Visita = ?,  ID_Tipo_Ocorrencia = ?,  DT_Visita = ?,  QT_Amostra_Coletada = ?, DS_Ocorrencia = ?,  NM_Morador = ?, DT_Nascimento = ?, ID_Colaborador = ? where ID_Visita_Item = ?'
+            const sql = 'update visita_item set ID_Visita =?, ID_Tipo_Ocorrencia =?, SINAN =?, DS_Ocorrencia =? where ID_Visita_Item = ?'
 
-            const values = [ID_Visita, ID_Tipo_Ocorrencia, DT_Visita, QT_Amostra_Coletada, DS_Ocorrencia, NM_Morador, DT_Nascimento, ID_Colaborador, ID_Visita_Item]
+            const values = [ID_Visita, ID_Tipo_Ocorrencia, SINAN, DS_Ocorrencia, ID_Visita_Item]
 
             const dadosAtualizados = await db.query(sql, values)
              
@@ -52,11 +52,11 @@ module.exports = {
     async inserirVisitas_itens(request, response) {
         try {
 
-            const {ID_Visita, ID_Tipo_Ocorrencia, DT_Visita, QT_Amostra_Coletada, DS_Ocorrencia, NM_Morador, DT_Nascimento, ID_Colaborador} = request.body
+            const {ID_Visita, ID_Tipo_Ocorrencia, SINAN, DS_Ocorrencia} = request.body
 
-            const sql = 'insert into visita_item (id_visita, id_tipo_ocorrencia, dt_visita, qt_amostra_coletada, ds_ocorrencia, nm_morador, dt_nascimento, id_colaborador) values (?,?,?,?,?,?,?,?)'
+            const sql = 'insert into visita_item (ID_Visita, ID_Tipo_Ocorrencia, SINAN, DS_Ocorrencia) values (?,?,?,?,?,?,?,?)'
 
-            const values = [ID_Visita, ID_Tipo_Ocorrencia, DT_Visita, QT_Amostra_Coletada, DS_Ocorrencia, NM_Morador, DT_Nascimento, ID_Colaborador]
+            const values = [ID_Visita, ID_Tipo_Ocorrencia, SINAN, DS_Ocorrencia]
             
 
             const [results] = await db.query(sql, values)

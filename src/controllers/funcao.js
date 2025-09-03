@@ -4,7 +4,7 @@ module.exports ={
     async listarFuncao(request, response){
         try {
 
-            const sql= 'SELECT ID_Funcao, NM_Funcao	FROM funcao; ';
+            const sql= 'SELECT ID_Funcao, NM_Funcao, SN_Agente_Comunitario FROM funcao; ';
             
             const [rows] = await db.query(sql);
 

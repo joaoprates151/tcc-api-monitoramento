@@ -4,7 +4,7 @@ module.exports = {
     async listarTipo_ocorrencias(request, response) {
         try {
 
-            const sql = 'SELECT ID_Tipo_Ocorrencia, NM_Tipo_Ocorrencia, ID_Usuario_cadastro, DT_Cadastro, Icone, Cor FROM tipo_ocorrencia;'
+            const sql = 'SELECT ID_Tipo_Ocorrencia, NM_Tipo_Ocorrencia, DT_Cadastro, Icone, Cor FROM tipo_ocorrencia;'
 
             const [rows] = await db.query(sql)
             return response.status(200).json({
@@ -26,12 +26,12 @@ module.exports = {
     async atualizarTipo_ocorrencias(request, response) {
         try {
 
-            const {NM_Tipo_Ocorrencia, ID_Usuario_cadastro, DT_Cadastro, Icone, Cor} = request.body
+            const {NM_Tipo_Ocorrencia, DT_Cadastro, Icone, Cor} = request.body
             const {ID_Tipo_Ocorrencia} = request.params
 
-            const sql = 'update tipo_ocorrencia set NM_Tipo_Ocorrencia = ?,  ID_Usuario_cadastro = ?, DT_Cadastro = ?,  Icone = ?, Cor = ? where ID_Tipo_Ocorrencia = ?'
+            const sql = 'update tipo_ocorrencia set NM_Tipo_Ocorrencia = ?, DT_Cadastro = ?,  Icone = ?, Cor = ? where ID_Tipo_Ocorrencia = ?'
 
-            const values = [NM_Tipo_Ocorrencia, ID_Usuario_cadastro, DT_Cadastro, Icone, Cor, ID_Tipo_Ocorrencia]
+            const values = [NM_Tipo_Ocorrencia, DT_Cadastro, Icone, Cor, ID_Tipo_Ocorrencia]
 
             const dadosAtualizados = await db.query(sql, values)
              
@@ -52,11 +52,11 @@ module.exports = {
     async InserirTipo_ocorrencias(request, response) {
         try {
 
-            const {NM_Tipo_Ocorrencia, ID_Usuario_cadastro, DT_Cadastro, Icone, Cor} = request.body
+            const {NM_Tipo_Ocorrencia, DT_Cadastro, Icone, Cor} = request.body
 
-            const sql = 'insert into tipo_ocorrencia (NM_Tipo_Ocorrencia, ID_Usuario_cadastro, DT_Cadastro, Icone, Cor) values (?,?,?,?,?)'
+            const sql = 'insert into tipo_ocorrencia (NM_Tipo_Ocorrencia, DT_Cadastro, Icone, Cor) values (?,?,?,?,?)'
 
-            const values = [NM_Tipo_Ocorrencia, ID_Usuario_cadastro, DT_Cadastro, Icone, Cor]
+            const values = [NM_Tipo_Ocorrencia, DT_Cadastro, Icone, Cor]
             
 
             const [results] = await db.query(sql, values)

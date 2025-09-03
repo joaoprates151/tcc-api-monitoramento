@@ -4,7 +4,7 @@ module.exports = {
     async listarLocalidades(request, response) {
         try {
 
-            const sql = 'SELECT Id_localidade, NM_Localidade, UF_Localidade FROM bd_tcc_infonet_224_monit_prev.localidade'
+            const sql = 'SELECT ID_localidade, NM_Localidade, UF_Localidade FROM bd_tcc_infonet_224_monit_prev.localidade'
 
             const [rows] = await db.query(sql)
             return response.status(200).json({

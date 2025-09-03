@@ -4,7 +4,7 @@ module.exports = {
     async listarPessoas(request, response) {
         try {
 
-            const sql = 'SELECT ID_Pessoa, TP_Pessoa, NM_Pessoa, NO_Documento, DT_Nascimento,no_imovel, Complemento, no_Telefone, Email, ID_Rua FROM pessoa;'
+            const sql = 'SELECT ID_Pessoa, TP_Pessoa, NM_Pessoa, NO_Documento, DT_Nascimento, NO_Telefone, Email FROM pessoa;'
 
             const [rows] = await db.query(sql)
             return response.status(200).json({
@@ -26,12 +26,12 @@ module.exports = {
     async atualizarPessoas(request, response) {
         try {
 
-            const { TP_Pessoa, NM_Pessoa, NO_Documento, DT_Nascimento, no_imovel, Complemento, no_Telefone, Email, ID_Rua} = request.body
+            const {TP_Pessoa, NM_Pessoa, NO_Documento, DT_Nascimento, NO_Telefone, Email} = request.body
             const {ID_pessoa} = request.params
 
-            const sql = 'update pessoa set  TP_Pessoa = ?, NM_Pessoa =? ,NO_Documento =?,DT_Nascimento =?,no_imovel =?,Complemento =?,no_Telefone =?,Email =?,ID_Rua =? where ID_pessoa = ?'
+            const sql = 'update pessoa set  TP_Pessoa = ?, NM_Pessoa =?, NO_Documento =?,DT_Nascimento =?,NO_Telefone =?,Email =? where ID_pessoa = ?'
 
-            const values = [ TP_Pessoa, NM_Pessoa, NO_Documento, DT_Nascimento, no_imovel, Complemento, no_Telefone, Email, ID_Rua, ID_pessoa]
+            const values = [ TP_Pessoa, NM_Pessoa, NO_Documento, DT_Nascimento, NO_Telefone, Email, ID_pessoa]
 
             const dadosAtualizados = await db.query(sql, values)
              
@@ -52,11 +52,11 @@ module.exports = {
     async inserirPessoas(request, response) {
         try {
 
-            const {TP_Pessoa, NM_Pessoa, NO_Documento, DT_Nascimento, NO_Imovel, Complemento, NO_Telefone, email, ID_Rua} = request.body
+            const {TP_Pessoa, NM_Pessoa, NO_Documento, DT_Nascimento, NO_Telefone, Email, ID_Rua} = request.body
 
-            const sql = 'insert into pessoa (TP_Pessoa,NM_Pessoa, NO_Documento, DT_Nascimento, NO_Imovel,Complemento, NO_Telefone, email, ID_Rua) values (?,?,?,?,?,?,?,?,?)'
+            const sql = 'insert into pessoa (TP_Pessoa, NM_Pessoa, NO_Documento, DT_Nascimento, NO_Telefone, Email) values (?,?,?,?,?,?,?,?,?)'
 
-            const values = [TP_Pessoa, NM_Pessoa, NO_Documento, DT_Nascimento, NO_Imovel, Complemento, NO_Telefone, email, ID_Rua]
+            const values = [TP_Pessoa, NM_Pessoa, NO_Documento, DT_Nascimento, NO_Telefone, Email, ID_Rua]
             
 
             const [results] = await db.query(sql, values)

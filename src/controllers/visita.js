@@ -4,7 +4,7 @@ module.exports = {
     async listarVisitas(request, response) {
         try {
 
-            const sql = 'SELECT  ID_Colaborador_Agente, ID_Usuario_Cadastro, DT_Cadastro, DT_Solicitacao, DT_Atendimento, ID_Rua, NO_Imovel, NO_Telefone, DS_Ponto_Referencia, ID_Unidade_saude, ST_Imovel, SN_Vistoriada, SN_Acidente, SINAN, SN_Demanda_Expontanea, DS_Observacao, SN_Agenda_Retorno, DT_Retono, ST_Status FROM visita;'
+            const sql = 'SELECT  ID_Visita, ID_Usuario, DT_Cadastro, DT_Solicitacao, DT_Atendimento, ID_Unidade_Saude, ID_Pessoa, ID_Endereco, ST_Imovel, ST_Situacao, QT_Amostra_Coletada, SN_Acidente, SN_Demanda_Expontanea, DS_Observacao, SN_Agenda_Retorno, DT_Retono, ST_Status, Assinatura_Base64 FROM visita;'
 
             const [rows] = await db.query(sql)
             return response.status(200).json({
@@ -26,12 +26,12 @@ module.exports = {
     async atualizarVisitas(request, response) {
         try {
 
-            const {ID_Colaborador_Agente, ID_Usuario_Cadastro, DT_Cadastro, DT_Solicitacao, DT_Atendimento, ID_Rua, NO_Imovel, NO_Telefone, DS_Ponto_Referencia, ID_Unidade_saude, ST_Imovel, SN_Vistoriada, SN_Acidente, SINAN, SN_Demanda_Expontanea, DS_Observacao, SN_Agenda_Retorno, DT_Retono, ST_Status} = request.body
+            const {ID_Usuario, DT_Cadastro, DT_Solicitacao, DT_Atendimento, ID_Unidade_Saude, ID_Pessoa, ID_Endereco, ST_Imovel, ST_Situacao, QT_Amostra_Coletada, SN_Acidente, SN_Demanda_Expontanea, DS_Observacao, SN_Agenda_Retorno, DT_Retono, ST_Status, Assinatura_Base64} = request.body
             const {ID_Visita} = request.params
 
-            const sql = 'update visita set ID_Colaborador_Agente =?, ID_Usuario_Cadastro =?, DT_Cadastro=?, DT_Solicitacao=?, DT_Atendimento=?, ID_Rua=?, NO_Imovel=?, NO_Telefone=?, DS_Ponto_Referencia=?, ID_Unidade_saude=?, ST_Imovel=?, SN_Vistoriada=?, SN_Acidente=?, SINAN=?, SN_Demanda_Expontanea=?, DS_Observacao=?, SN_Agenda_Retorno=?, DT_Retono=?, ST_Status=? where ID_Visita = ?'
+            const sql = 'update visita set ID_Usuario =?, DT_Cadastro =?, DT_Solicitacao =?, DT_Atendimento =?, ID_Unidade_Saude =?, ID_Pessoa =?, ID_Endereco =?, ST_Imovel =?, ST_Situacao =?, QT_Amostra_Coletada =?, SN_Acidente =?, SN_Demanda_Expontanea =?, DS_Observacao =?, SN_Agenda_Retorno =?, DT_Retono =?, ST_Status =?, Assinatura_Base64 =? where ID_Visita = ?'
 
-            const values = [ID_Colaborador_Agente, ID_Usuario_Cadastro, DT_Cadastro, DT_Solicitacao, DT_Atendimento, ID_Rua, NO_Imovel, NO_Telefone, DS_Ponto_Referencia, ID_Unidade_saude, ST_Imovel, SN_Vistoriada, SN_Acidente, SINAN, SN_Demanda_Expontanea, DS_Observacao, SN_Agenda_Retorno, DT_Retono, ST_Status, ID_Visita]
+            const values = [ID_Usuario, DT_Cadastro, DT_Solicitacao, DT_Atendimento, ID_Unidade_Saude, ID_Pessoa, ID_Endereco, ST_Imovel, ST_Situacao, QT_Amostra_Coletada, SN_Acidente, SN_Demanda_Expontanea, DS_Observacao, SN_Agenda_Retorno, DT_Retono, ST_Status, Assinatura_Base64, ID_Visita]
 
             const dadosAtualizados = await db.query(sql, values)
              
@@ -52,11 +52,11 @@ module.exports = {
     async inserirVisitas(request, response) {
         try {
 
-            const {ID_Colaborador_Agente, ID_Usuario_Cadastro, DT_Cadastro, DT_Solicitacao, DT_Atendimento, ID_Rua, NO_Imovel, NO_Telefone, DS_Ponto_Referencia, ID_Unidade_saude, ST_Imovel, SN_Vistoriada, SN_Acidente, SINAN, SN_Demanda_Expontanea, DS_Observacao, SN_Agenda_Retorno, DT_Retono, ST_Status} = request.body
+            const {ID_Usuario, DT_Cadastro, DT_Solicitacao, DT_Atendimento, ID_Unidade_Saude, ID_Pessoa, ID_Endereco, ST_Imovel, ST_Situacao, QT_Amostra_Coletada, SN_Acidente, SN_Demanda_Expontanea, DS_Observacao, SN_Agenda_Retorno, DT_Retono, ST_Status, Assinatura_Base64} = request.body
 
-            const sql = 'insert into visita (ID_Colaborador_Agente, ID_Usuario_Cadastro, DT_Cadastro, DT_Solicitacao, DT_Atendimento, ID_Rua, NO_Imovel, NO_Telefone, DS_Ponto_Referencia, ID_Unidade_saude, ST_Imovel, SN_Vistoriada, SN_Acidente, SINAN, SN_Demanda_Expontanea, DS_Observacao, SN_Agenda_Retorno, DT_Retono, ST_Status) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+            const sql = 'insert into visita (ID_Usuario, DT_Cadastro, DT_Solicitacao, DT_Atendimento, ID_Unidade_Saude, ID_Pessoa, ID_Endereco, ST_Imovel, ST_Situacao, QT_Amostra_Coletada, SN_Acidente, SN_Demanda_Expontanea, DS_Observacao, SN_Agenda_Retorno, DT_Retono, ST_Status, Assinatura_Base64) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
 
-            const values = [ID_Colaborador_Agente, ID_Usuario_Cadastro, DT_Cadastro, DT_Solicitacao, DT_Atendimento, ID_Rua, NO_Imovel, NO_Telefone, DS_Ponto_Referencia, ID_Unidade_saude, ST_Imovel, SN_Vistoriada, SN_Acidente, SINAN, SN_Demanda_Expontanea, DS_Observacao, SN_Agenda_Retorno, DT_Retono, ST_Status]
+            const values = [ID_Usuario, DT_Cadastro, DT_Solicitacao, DT_Atendimento, ID_Unidade_Saude, ID_Pessoa, ID_Endereco, ST_Imovel, ST_Situacao, QT_Amostra_Coletada, SN_Acidente, SN_Demanda_Expontanea, DS_Observacao, SN_Agenda_Retorno, DT_Retono, ST_Status, Assinatura_Base64]
             
 
             const [results] = await db.query(sql, values)
