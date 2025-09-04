@@ -18,7 +18,7 @@ module.exports ={
             return response.status(500).json({
                 sucesso: false,
                 mensagem: 'Erro na requisição.',
-                dados: error.mensage
+                dados: error.message
             });
         }
     },
@@ -30,9 +30,9 @@ module.exports ={
 
             const values = [ CD_Usuario, Senha, DT_Cadastro,DH_Acesso, DT_Vigencia, SN_Bloqueado, Matricula, SN_Temporario, ID_Funcao]
             
-            const [ressults] = await db.query(sql, values);
+            const [results] = await db.query(sql, values);
 
-            const usuario_id = ressults.insertId
+            const usuario_id = results.insertId
 
             
             return response.status(200).json({
@@ -44,7 +44,7 @@ module.exports ={
             return response.status(500).json({
                 sucesso: false,
                 mensagem: 'Erro na requisição.',
-                dados: error.mensage
+                dados: error.message
             });
         }
     },
@@ -71,7 +71,7 @@ module.exports ={
             return response.status(500).json({
                 sucesso: false,
                 mensagem: 'Erro na requisição.',
-                dados: error.mensage
+                dados: error.message
             });
         }
     },
@@ -100,7 +100,7 @@ module.exports ={
             return response.status(500).json({
                 sucesso: false,
                 mensagem: 'Erro na requisição.',
-                dados: error.mensage
+                dados: error.message
             });
         }
     }

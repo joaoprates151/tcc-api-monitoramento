@@ -27,8 +27,8 @@ router.delete('/setores/:ID_Setor', SetoresController.excluirSetores)
 
 router.get('/pessoas', PessoasController.listarPessoas)
 router.post('/pessoas', PessoasController.inserirPessoas)
-router.patch('/pessoas/:ID_pessoa', PessoasController.atualizarPessoas)
-router.delete('/pessoas/:ID_pessoa', PessoasController.excluirPessoas)
+router.patch('/pessoas/:ID_Pessoa', PessoasController.atualizarPessoas)
+router.delete('/pessoas/:ID_Pessoa', PessoasController.excluirPessoas)
 
 
 router.get('/visita_itens', Visita_itensController.listarVisitas_itens)
