@@ -29,7 +29,7 @@ module.exports = {
             const {ID_Usuario, DT_Cadastro, DT_Solicitacao, DT_Atendimento, ID_Unidade_Saude, ID_Pessoa, ID_Endereco, ST_Imovel, ST_Situacao, QT_Amostra_Coletada, SN_Acidente, SN_Demanda_Expontanea, DS_Observacao, SN_Agenda_Retorno, DT_Retono, ST_Status, Assinatura_Base64} = request.body
             const {ID_Visita} = request.params
 
-            const sql = 'update visita set ID_Usuario =?, DT_Cadastro =?, DT_Solicitacao =?, DT_Atendimento =?, ID_Unidade_Saude =?, ID_Pessoa =?, ID_Endereco =?, ST_Imovel =?, ST_Situacao =?, QT_Amostra_Coletada =?, SN_Acidente =?, SN_Demanda_Expontanea =?, DS_Observacao =?, SN_Agenda_Retorno =?, DT_Retono =?, ST_Status =?, Assinatura_Base64 =? where ID_Visita = ?'
+            const sql = 'update visita set ID_Usuario =?, DT_Cadastro =?, DT_Solicitacao =?, DT_Atendimento =?, ID_Unidade_Saude =?, ID_Pessoa =?, ID_Endereco =?, ST_Imovel =?, ST_Situacao =?, QT_Amostra_Coletada =?, SN_Acidente =?, SN_Demanda_Expontanea =?, DS_Observacao =?, SN_Agenda_Retorno =?, DT_Retono =?, ST_Status =?, Assinatura_Base64 =? where ID_Visita =?'
 
             const values = [ID_Usuario, DT_Cadastro, DT_Solicitacao, DT_Atendimento, ID_Unidade_Saude, ID_Pessoa, ID_Endereco, ST_Imovel, ST_Situacao, QT_Amostra_Coletada, SN_Acidente, SN_Demanda_Expontanea, DS_Observacao, SN_Agenda_Retorno, DT_Retono, ST_Status, Assinatura_Base64, ID_Visita]
 
@@ -54,7 +54,7 @@ module.exports = {
 
             const {ID_Usuario, DT_Cadastro, DT_Solicitacao, DT_Atendimento, ID_Unidade_Saude, ID_Pessoa, ID_Endereco, ST_Imovel, ST_Situacao, QT_Amostra_Coletada, SN_Acidente, SN_Demanda_Expontanea, DS_Observacao, SN_Agenda_Retorno, DT_Retono, ST_Status, Assinatura_Base64} = request.body
 
-            const sql = 'insert into visita (ID_Usuario, DT_Cadastro, DT_Solicitacao, DT_Atendimento, ID_Unidade_Saude, ID_Pessoa, ID_Endereco, ST_Imovel, ST_Situacao, QT_Amostra_Coletada, SN_Acidente, SN_Demanda_Expontanea, DS_Observacao, SN_Agenda_Retorno, DT_Retono, ST_Status, Assinatura_Base64) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+            const sql = 'insert into visita (ID_Usuario, DT_Cadastro, DT_Solicitacao, DT_Atendimento, ID_Unidade_Saude, ID_Pessoa, ID_Endereco, ST_Imovel, ST_Situacao, QT_Amostra_Coletada, SN_Acidente, SN_Demanda_Expontanea, DS_Observacao, SN_Agenda_Retorno, DT_Retono, ST_Status, Assinatura_Base64) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
 
             const values = [ID_Usuario, DT_Cadastro, DT_Solicitacao, DT_Atendimento, ID_Unidade_Saude, ID_Pessoa, ID_Endereco, ST_Imovel, ST_Situacao, QT_Amostra_Coletada, SN_Acidente, SN_Demanda_Expontanea, DS_Observacao, SN_Agenda_Retorno, DT_Retono, ST_Status, Assinatura_Base64]
             
