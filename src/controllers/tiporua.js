@@ -11,7 +11,7 @@ module.exports ={
                 mensagem: 'Lista de Tipos de Rua',
                 itens: rows.length,
                 dados: rows
-        });
+            });
 
         }catch (error) {
             return response.status(500).json({
@@ -26,7 +26,6 @@ module.exports ={
         try {
             // Os campos que serão utilizados no Insominia
             const {NM_Tipo_Rua} = request.body;
-            const ID_Tipo_Rua = 0;
 
             // Instrução SQl
             const sql = `INSERT INTO tipo_rua (NM_Tipo_Rua) 
@@ -57,7 +56,7 @@ module.exports ={
             return response.status(500).json({
                 sucesso: false,
                 mensagem: 'Erro na requisição.',
-                dados: error.mensage
+                dados: error.message
             });
         }
     },
@@ -91,7 +90,7 @@ module.exports ={
             return response.status(500).json({
                 sucesso: false,
                 mensagem: 'Erro na requisição.',
-                dados: error.mensage
+                dados: error.message
             });
         }
     },

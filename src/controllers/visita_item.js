@@ -54,7 +54,7 @@ module.exports = {
 
             const {ID_Visita, ID_Tipo_Ocorrencia, SINAN, DS_Ocorrencia} = request.body
 
-            const sql = 'insert into visita_item (ID_Visita, ID_Tipo_Ocorrencia, SINAN, DS_Ocorrencia) values (?,?,?,?,?,?,?,?)'
+            const sql = 'insert into visita_item (ID_Visita, ID_Tipo_Ocorrencia, SINAN, DS_Ocorrencia) values (?,?,?,?)'
 
             const values = [ID_Visita, ID_Tipo_Ocorrencia, SINAN, DS_Ocorrencia]
             
