@@ -3,7 +3,7 @@ const db = require('../dataBase/connection');
 module.exports ={
     async listarTipoRua(request, response){
         try {
-            const sql = 'SELECT ID_Tipo_Rua, NM_Tipo_Rua FROM TIPO_RUA;';
+            const sql = 'SELECT ID_Tipo_Rua, NM_Tipo_Rua FROM tipo_rua;';
             const [rows] = await db.query(sql);
 
             return response.status(200).json({
@@ -17,7 +17,7 @@ module.exports ={
             return response.status(500).json({
                 sucesso: false,
                 mensagem: 'Erro na requisição.',
-                dados: error.mensage
+                dados: error.message
             });
         }
     },
@@ -25,15 +25,15 @@ module.exports ={
     async cadastrarTipoRua(request, response){
         try {
             // Os campos que serão utilizados no Insominia
-            const {nm_tipo_rua} = request.body;
-            const id_tipo_rua = 0;
+            const {NM_Tipo_Rua} = request.body;
+            const ID_Tipo_Rua = 0;
 
             // Instrução SQl
-            const sql = `INSERT INTO TIPO_RUA (NM_Tipo_Rua) 
+            const sql = `INSERT INTO tipo_rua (NM_Tipo_Rua) 
                          VALUES (?);`;
 
             // Definição do valores do parâmetro
-            const values = [nm_tipo_rua];
+            const values = [NM_Tipo_Rua];
 
             // Executa o SQL
             const [result] = await db.query(sql, values);
@@ -43,8 +43,8 @@ module.exports ={
 
             // Lista dos Dados Inseridos
             const dados = {
-                id_tipo_rua: ID_Table,
-                nm_tipo_rua
+                ID_Tipo_Rua: ID_Table,
+                NM_Tipo_Rua
             }
                 
             return response.status(200).json({
@@ -65,25 +65,25 @@ module.exports ={
     async atualizarTipoRua(request, response){
         try {
             // Os campos que serão utilizados no Insominia
-            const {nm_tipo_rua} = request.body;
+            const {NM_Tipo_Rua} = request.body;
 
             // Parametro recebido pela URL
-            const {id_tipo_rua} = request.params;
+            const {ID_Tipo_Rua} = request.params;
 
             // Instrução SQl
-            const sql = `UPDATE TIPO_RUA 
+            const sql = `UPDATE tipo_rua 
                          SET NM_Tipo_Rua = ?
                          WHERE ID_Tipo_Rua = ?;`;
 
             // Definição do valores do parâmetro
-            const values = [nm_tipo_rua,id_tipo_rua];
+            const values = [NM_Tipo_Rua,ID_Tipo_Rua];
 
             // Executa o SQL
             const atualizaDados = await db.query(sql, values);
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: `Tipos de Rua ${id_tipo_rua} atualizado com sucesso!`,
+                mensagem: `Tipos de Rua ${ID_Tipo_Rua} atualizado com sucesso!`,
                 dados: atualizaDados[0].affectedRows
         });
 
@@ -102,21 +102,21 @@ module.exports ={
             // const {nm_tipo_rua} = request.body;
 
             // Parametro recebido pela URL
-            const {id_tipo_rua} = request.params;
+            const {ID_Tipo_Rua} = request.params;
 
             // Instrução SQl
-            const sql = `DELETE FROM TIPO_RUA 
+            const sql = `DELETE FROM tipo_rua 
                          WHERE ID_Tipo_Rua = ?;`;
 
             // Definição do valores do parâmetro
-            const values = [id_tipo_rua];
+            const values = [ID_Tipo_Rua];
 
             // Executa o SQL
             const excluir = await db.query(sql, values);
 
             return response.status(200).json({
                 sucesso: true,
-                mensagem: `Tipos de Rua ${id_tipo_rua} excluído com sucesso!`,
+                mensagem: `Tipos de Rua ${ID_Tipo_Rua} excluído com sucesso!`,
                 dados: excluir[0].affectedRows
         });
 
@@ -124,7 +124,7 @@ module.exports ={
             return response.status(500).json({
                 sucesso: false,
                 mensagem: 'Erro na requisição.',
-                dados: error.mensage
+                dados: error.message
             });
         }
     },

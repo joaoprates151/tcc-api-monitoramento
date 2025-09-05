@@ -9,8 +9,8 @@ router.get('/parametro', ParametroControler.listarParametro);
 
 router.get('/tiporua', TipoRuaControler.listarTipoRua);
 router.post('/tiporua', TipoRuaControler.cadastrarTipoRua);
-router.patch('/tiporua/:id_tipo_rua', TipoRuaControler.atualizarTipoRua);
-router.delete('/tiporua/:id_tipo_rua', TipoRuaControler.excluirTipoRua);
+router.patch('/tiporua/:ID_Tipo_Rua', TipoRuaControler.atualizarTipoRua);
+router.delete('/tiporua/:ID_Tipo_Rua', TipoRuaControler.excluirTipoRua);
 
 module.exports = router;
 
