@@ -129,7 +129,7 @@ CREATE TABLE `pessoa` (
 
 
 CREATE TABLE `usuario` (
-  `ID_Usuario` int(11) NOT NULL /*AUTO_INCREMENT?*/
+  `ID_Usuario` int(11) NOT NULL
   `CD_Usuario` varchar(20) NOT NULL,
   `Senha` varchar(50) NOT NULL,
   `DT_Cadastro` date NOT NULL,
