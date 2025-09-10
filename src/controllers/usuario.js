@@ -25,10 +25,10 @@ module.exports ={
 
     async inserirUsuarios(request, response){
         try {
-            const { CD_Usuario, Senha, DT_Cadastro,DH_Acesso, DT_Vigencia, SN_Bloqueado, Matricula, SN_Temporario, ID_Funcao}= request.body
-            const sql= 'INSERT INTO usuario (CD_Usuario, Senha, DT_Cadastro, DH_Acesso, DT_Vigencia, SN_Bloqueado, Matricula, SN_Temporario, ID_Funcao) value(?,?,?,?,?,?,?,?,?) ';
+            const { ID_Usuario, CD_Usuario, Senha, DT_Cadastro,DH_Acesso, DT_Vigencia, SN_Bloqueado, Matricula, SN_Temporario, ID_Funcao}= request.body
+            const sql= 'INSERT INTO usuario (ID_Usuario, CD_Usuario, Senha, DT_Cadastro, DH_Acesso, DT_Vigencia, SN_Bloqueado, Matricula, SN_Temporario, ID_Funcao) value(?,?,?,?,?,?,?,?,?,?) ';
 
-            const values = [ CD_Usuario, Senha, DT_Cadastro,DH_Acesso, DT_Vigencia, SN_Bloqueado, Matricula, SN_Temporario, ID_Funcao]
+            const values = [ ID_Usuario, CD_Usuario, Senha, DT_Cadastro,DH_Acesso, DT_Vigencia, SN_Bloqueado, Matricula, SN_Temporario, ID_Funcao]
             
             const [results] = await db.query(sql, values);
 
@@ -52,13 +52,13 @@ module.exports ={
     async atualizarUsuarios(request, response){
         try {
 
-            const { CD_Usuario, Senha, DT_Cadastro,DH_Acesso, DT_Vigencia, SN_Bloqueado,  Matricula, SN_Temporario, ID_Funcao}= request.body
+            const { ID_Usuario, CD_Usuario , Senha, DT_Cadastro,DH_Acesso, DT_Vigencia, SN_Bloqueado,  Matricula, SN_Temporario, ID_Funcao}= request.body
 
             const { id } = request.params;
 
-            const sql= 'UPDATE usuario SET  CD_Usuario = ?, Senha= ?, DT_Cadastro = ?,DH_Acesso = ?, DT_Vigencia = ?, SN_Bloqueado = ?, Matricula = ?, SN_Temporario = ?, ID_Funcao = ? WHERE ID_Usuario = ?';
+            const sql= 'UPDATE usuario SET  ID_Usuario = ?,CD_Usuario=?, Senha= ?, DT_Cadastro = ?,DH_Acesso = ?, DT_Vigencia = ?, SN_Bloqueado = ?, Matricula = ?, SN_Temporario = ?, ID_Funcao = ? WHERE ID_Usuario = ?';
         
-            const values = [ CD_Usuario, Senha, DT_Cadastro,DH_Acesso, DT_Vigencia, SN_Bloqueado,  Matricula, SN_Temporario, ID_Funcao, id]
+            const values = [ ID_Usuario, CD_Usuario, Senha, DT_Cadastro,DH_Acesso, DT_Vigencia, SN_Bloqueado,  Matricula, SN_Temporario, ID_Funcao, id]
 
             const atualizarDados = await db.query(sql, values);
 
