@@ -1,11 +1,64 @@
 const db = require('../dataBase/connection');
 
-module.exports ={
-    async listarUsuarios(request, response){
+module.exports = {
+    async login(request, response) {
+        try {
+            const { usuario, senha } = request.query;
+
+            const sql = `
+            SELECT
+                u.ID_Usuario,
+                p.NM_Pessoa,
+                u.CD_Usuario,
+                u.Senha,
+                u.SN_Bloqueado
+            FROM
+                usuario u
+            INNER JOIN
+                pessoa p ON p.ID_Pessoa = u.ID_Usuario
+            WHERE
+                u.CD_Usuario = ? AND u.Senha = ? AND u.SN_Bloqueado = 'N'
+        `;
+
+            const values = [usuario, senha];
+            const [rows] = await db.query(sql, values);
+            const nItems = rows.length;
+
+            if (nItems < 1) {
+                return response.status(403).json({
+                    sucesso: false,
+                    mensagem: 'Usuário e/ou senha inválido.',
+                    dados: null,
+                });
+            }
+
+            // Mapear os dados para retorno tratado
+            const dados = rows.map(user => ({
+                id: user.ID_Usuario,
+                nome: user.NM_Pessoa,
+                usuario: user.CD_Usuario
+            }));
+
+            return response.status(200).json({
+                sucesso: true,
+                mensagem: 'Login efetuado com sucesso',
+                dados
+            });
+
+        } catch (error) {
+            return response.status(500).json({
+                sucesso: false,
+                mensagem: 'Erro na requisição',
+                dados: error.message
+            });
+        }
+    },
+
+    async listarUsuarios(request, response) {
         try {
 
-            const sql= 'SELECT ID_Usuario, CD_Usuario, Senha, DT_Cadastro,DH_Acesso, DT_Vigencia, SN_Bloqueado, Matricula, SN_Temporario, ID_Funcao FROM usuario;';
-            
+            const sql = 'SELECT ID_Usuario, CD_Usuario, Senha, DT_Cadastro,DH_Acesso, DT_Vigencia, SN_Bloqueado, Matricula, SN_Temporario, ID_Funcao FROM usuario;';
+
             const [rows] = await db.query(sql);
 
             return response.status(200).json({
@@ -14,7 +67,7 @@ module.exports ={
                 itens: rows.length,
                 dados: rows
             });
-        }catch (error) {
+        } catch (error) {
             return response.status(500).json({
                 sucesso: false,
                 mensagem: 'Erro na requisição.',
@@ -23,24 +76,24 @@ module.exports ={
         }
     },
 
-    async inserirUsuarios(request, response){
+    async inserirUsuarios(request, response) {
         try {
-            const { ID_Usuario, CD_Usuario, Senha, DT_Cadastro,DH_Acesso, DT_Vigencia, SN_Bloqueado, Matricula, SN_Temporario, ID_Funcao}= request.body
-            const sql= 'INSERT INTO usuario (ID_Usuario, CD_Usuario, Senha, DT_Cadastro, DH_Acesso, DT_Vigencia, SN_Bloqueado, Matricula, SN_Temporario, ID_Funcao) value(?,?,?,?,?,?,?,?,?,?) ';
+            const { ID_Usuario, CD_Usuario, Senha, DT_Cadastro, DH_Acesso, DT_Vigencia, SN_Bloqueado, Matricula, SN_Temporario, ID_Funcao } = request.body
+            const sql = 'INSERT INTO usuario (ID_Usuario, CD_Usuario, Senha, DT_Cadastro, DH_Acesso, DT_Vigencia, SN_Bloqueado, Matricula, SN_Temporario, ID_Funcao) value(?,?,?,?,?,?,?,?,?,?) ';
 
-            const values = [ ID_Usuario, CD_Usuario, Senha, DT_Cadastro,DH_Acesso, DT_Vigencia, SN_Bloqueado, Matricula, SN_Temporario, ID_Funcao]
-            
+            const values = [ID_Usuario, CD_Usuario, Senha, DT_Cadastro, DH_Acesso, DT_Vigencia, SN_Bloqueado, Matricula, SN_Temporario, ID_Funcao]
+
             const [results] = await db.query(sql, values);
 
             const usuario_id = results.insertId
 
-            
+
             return response.status(200).json({
                 sucesso: true,
                 mensagem: 'Usuarios com sucesso.',
-                dados:usuario_id
+                dados: usuario_id
             });
-        }catch (error) {
+        } catch (error) {
             return response.status(500).json({
                 sucesso: false,
                 mensagem: 'Erro na requisição.',
@@ -49,16 +102,16 @@ module.exports ={
         }
     },
 
-    async atualizarUsuarios(request, response){
+    async atualizarUsuarios(request, response) {
         try {
 
-            const { ID_Usuario, CD_Usuario , Senha, DT_Cadastro,DH_Acesso, DT_Vigencia, SN_Bloqueado,  Matricula, SN_Temporario, ID_Funcao}= request.body
+            const { ID_Usuario, CD_Usuario, Senha, DT_Cadastro, DH_Acesso, DT_Vigencia, SN_Bloqueado, Matricula, SN_Temporario, ID_Funcao } = request.body
 
             const { id } = request.params;
 
-            const sql= 'UPDATE usuario SET  ID_Usuario = ?,CD_Usuario=?, Senha= ?, DT_Cadastro = ?,DH_Acesso = ?, DT_Vigencia = ?, SN_Bloqueado = ?, Matricula = ?, SN_Temporario = ?, ID_Funcao = ? WHERE ID_Usuario = ?';
-        
-            const values = [ ID_Usuario, CD_Usuario, Senha, DT_Cadastro,DH_Acesso, DT_Vigencia, SN_Bloqueado,  Matricula, SN_Temporario, ID_Funcao, id]
+            const sql = 'UPDATE usuario SET  ID_Usuario = ?,CD_Usuario=?, Senha= ?, DT_Cadastro = ?,DH_Acesso = ?, DT_Vigencia = ?, SN_Bloqueado = ?, Matricula = ?, SN_Temporario = ?, ID_Funcao = ? WHERE ID_Usuario = ?';
+
+            const values = [ID_Usuario, CD_Usuario, Senha, DT_Cadastro, DH_Acesso, DT_Vigencia, SN_Bloqueado, Matricula, SN_Temporario, ID_Funcao, id]
 
             const atualizarDados = await db.query(sql, values);
 
@@ -67,7 +120,7 @@ module.exports ={
                 mensagem: `Usuario ${id} Atualização de Usuários!`,
                 dados: atualizarDados[0].affectedRows
             });
-        }catch (error) {
+        } catch (error) {
             return response.status(500).json({
                 sucesso: false,
                 mensagem: 'Erro na requisição.',
@@ -76,11 +129,11 @@ module.exports ={
         }
     },
 
-    async excluirUsuarios(request, response){
+    async excluirUsuarios(request, response) {
         try {
             const { id } = request.params;
-            const sql= 'DELETE FROM usuario WHERE ID_Usuario = ?';
-            const values = [ id ]
+            const sql = 'DELETE FROM usuario WHERE ID_Usuario = ?';
+            const values = [id]
             const [result] = await db.query(sql, values);
 
             if (result.affectedRows === 0) {
@@ -94,9 +147,9 @@ module.exports ={
             return response.status(200).json({
                 sucesso: true,
                 mensagem: 'Excluir Usuários.',
-                dados:null
+                dados: null
             });
-        }catch (error) {
+        } catch (error) {
             return response.status(500).json({
                 sucesso: false,
                 mensagem: 'Erro na requisição.',

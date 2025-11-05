@@ -20,21 +20,21 @@ module.exports = {
                 mensagem: 'Erro na requisição',
                 dados: error.message
             });
-        } 
+        }
     },
 
     async atualizarTipo_ocorrencias(request, response) {
         try {
 
-            const {NM_Tipo_Ocorrencia, DT_Cadastro, Icone, Cor} = request.body
-            const {ID_Tipo_Ocorrencia} = request.params
+            const { NM_Tipo_Ocorrencia, DT_Cadastro, Icone, Cor } = request.body
+            const { ID_Tipo_Ocorrencia } = request.params
 
             const sql = 'update tipo_ocorrencia set NM_Tipo_Ocorrencia = ?, DT_Cadastro = ?,  Icone = ?, Cor = ? where ID_Tipo_Ocorrencia = ?'
 
             const values = [NM_Tipo_Ocorrencia, DT_Cadastro, Icone, Cor, ID_Tipo_Ocorrencia]
 
             const dadosAtualizados = await db.query(sql, values)
-             
+
             return response.status(200).json({
                 sucesso: true,
                 mensagem: `Tipo Ocorrência ${ID_Tipo_Ocorrencia} atualizado com sucesso!`,
@@ -46,18 +46,18 @@ module.exports = {
                 mensagem: 'Erro na requisição',
                 dados: error.message
             });
-        } 
+        }
     },
 
-    async InserirTipo_ocorrencias(request, response) {
+    async inserirTipo_ocorrencias(request, response) {
         try {
 
-            const {NM_Tipo_Ocorrencia, DT_Cadastro, Icone, Cor} = request.body
+            const { NM_Tipo_Ocorrencia, DT_Cadastro, Icone, Cor } = request.body
 
             const sql = 'insert into tipo_ocorrencia (NM_Tipo_Ocorrencia, DT_Cadastro, Icone, Cor) values (?,?,?,?)'
 
             const values = [NM_Tipo_Ocorrencia, DT_Cadastro, Icone, Cor]
-            
+
 
             const [results] = await db.query(sql, values)
 
@@ -75,22 +75,21 @@ module.exports = {
                 mensagem: 'Erro na requisição',
                 dados: error.message
             });
-        } 
+        }
     },
 
     async excluirTipo_ocorrencias(request, response) {
         try {
-            const {ID_Tipo_Ocorrencia} = request.params
+            const { ID_Tipo_Ocorrencia } = request.params
 
             const sql = 'delete from tipo_ocorrencia where ID_Tipo_Ocorrencia = ?'
 
             const values = [ID_Tipo_Ocorrencia]
-            
+
 
             const [results] = await db.query(sql, values)
 
-            if( results.affectedRows === 0 )
-            {
+            if (results.affectedRows === 0) {
                 return response.status(404).json({
                     sucesso: false,
                     mensagem: `Tipo Ocorrência ${ID_Tipo_Ocorrencia} não encontrado!`,
@@ -110,6 +109,6 @@ module.exports = {
                 mensagem: 'Erro na requisição',
                 dados: error.message
             });
-        } 
+        }
     }
 }

@@ -7,6 +7,7 @@ router.get('/usuarios', UsuarioController.listarUsuarios);
 router.post('/usuarios', UsuarioController.inserirUsuarios);
 router.patch('/usuarios/:id', UsuarioController.atualizarUsuarios);
 router.delete('/usuarios/:id', UsuarioController.excluirUsuarios);
+router.get('/login', UsuarioController.login);
 
 
 const FuncaoController = require('../controllers/funcao');
