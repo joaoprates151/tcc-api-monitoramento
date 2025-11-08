@@ -35,7 +35,7 @@ router.get('/usuarios', UsuarioController.listarUsuarios);
 router.post('/usuarios', UsuarioController.inserirUsuarios);
 router.patch('/usuarios/:id', UsuarioController.atualizarUsuarios);
 router.delete('/usuarios/:id', UsuarioController.excluirUsuarios);
-router.get('/login', UsuarioController.login);
+router.post('/login', UsuarioController.login);
 
 // ===== FUNÇÃO =====
 router.get('/funcao', FuncaoController.listarFuncao);
