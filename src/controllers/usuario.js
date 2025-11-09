@@ -1,23 +1,25 @@
 const db = require('../dataBase/connection');
 
 module.exports = {
+    // src/controllers/usuario.js
     async login(request, response) {
         try {
-            const { usuario, senha } = request.query;
+            // Mude de request.query para request.body
+            const { usuario, senha } = request.body;
 
             const sql = `
-            SELECT
-                u.ID_Usuario,
-                p.NM_Pessoa,
-                u.CD_Usuario,
-                u.Senha,
-                u.SN_Bloqueado
-            FROM
-                usuario u
-            INNER JOIN
-                pessoa p ON p.ID_Pessoa = u.ID_Usuario
-            WHERE
-                u.CD_Usuario = ? AND u.Senha = ? AND u.SN_Bloqueado = 'N'
+        SELECT
+            u.ID_Usuario,
+            p.NM_Pessoa,
+            u.CD_Usuario,
+            u.Senha,
+            u.SN_Bloqueado
+        FROM
+            usuario u
+        INNER JOIN
+            pessoa p ON p.ID_Pessoa = u.ID_Usuario
+        WHERE
+            u.CD_Usuario = ? AND u.Senha = ? AND u.SN_Bloqueado = 'N'
         `;
 
             const values = [usuario, senha];
@@ -32,7 +34,6 @@ module.exports = {
                 });
             }
 
-            // Mapear os dados para retorno tratado
             const dados = rows.map(user => ({
                 id: user.ID_Usuario,
                 nome: user.NM_Pessoa,
