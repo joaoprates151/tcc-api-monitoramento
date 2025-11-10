@@ -17,6 +17,11 @@ const RuasController = require('../controllers/rua');
 const Unidade_saudeController = require('../controllers/unidade_saude');
 const ParametroControler = require('../controllers/parametro');
 const TipoRuaControler = require('../controllers/tiporua');
+const DashboardController = require('../controllers/dashboard');
+
+// ===== DASHBOARD =====
+router.get('/dashboard/metricas/:id_usuario', DashboardController.getMetricasAgente);
+router.get('/dashboard/agente/:id_usuario', DashboardController.getDadosAgente);
 
 // ===== BAIRRO =====
 router.get('/bairro', BairroController.listarBairros);
