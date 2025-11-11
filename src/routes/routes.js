@@ -62,9 +62,12 @@ router.delete('/localidades/:ID_localidade', LocalidadeController.excluirLocalid
 
 // ===== VISITA =====
 router.get('/visitas', VisitaController.listarVisitas);
-router.post('/visitas', VisitaController.inserirVisitas);
-router.patch('/visitas/:ID_Visita', VisitaController.atualizarVisitas);
-router.delete('/visitas/:ID_Visita', VisitaController.excluirVisitas);
+router.get('/visitas/usuario/:idUsuario', VisitaController.listarVisitasPorUsuario);
+router.get('/visitas/dia/:idUsuario', VisitaController.listarVisitasDoDia);
+router.get('/visitas/:idVisita', VisitaController.buscarVisitaPorId);
+router.post('/visitas', VisitaController.cadastrarVisita);
+router.patch('/visitas/:idVisita', VisitaController.atualizarVisita);
+router.delete('/visitas/:idVisita', VisitaController.excluirVisita);
 
 // ===== SETORES =====
 router.get('/setores', SetoresController.listarSetores);
