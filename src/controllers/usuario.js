@@ -1,10 +1,8 @@
 const db = require('../dataBase/connection');
 
 module.exports = {
-    // src/controllers/usuario.js
     async login(request, response) {
         try {
-            // Mude de request.query para request.body
             const { usuario, senha } = request.body;
 
             const sql = `
