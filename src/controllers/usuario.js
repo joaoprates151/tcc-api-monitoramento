@@ -53,6 +53,63 @@ module.exports = {
         }
     },
 
+    async buscarUsuarioPorId(request, response) {
+        try {
+            const { id } = request.params;
+
+            const sql = `
+            SELECT
+                u.ID_Usuario,
+                p.NM_Pessoa,
+                u.CD_Usuario,
+                u.DT_Cadastro,
+                u.Matricula,
+                f.NM_Funcao
+            FROM
+                usuario u
+            INNER JOIN
+                pessoa p ON p.ID_Pessoa = u.ID_Usuario
+            INNER JOIN
+                funcao f ON f.ID_Funcao = u.ID_Funcao
+            WHERE
+                u.ID_Usuario = ?
+        `;
+
+            const [rows] = await db.query(sql, [id]);
+            const nItems = rows.length;
+
+            if (nItems < 1) {
+                return response.status(404).json({
+                    sucesso: false,
+                    mensagem: 'Usuário não encontrado.',
+                    dados: null,
+                });
+            }
+
+            const dados = rows.map(user => ({
+                id: user.ID_Usuario,
+                nome: user.NM_Pessoa,
+                usuario: user.CD_Usuario,
+                matricula: user.Matricula,
+                funcao: user.NM_Funcao,
+                dataCadastro: user.DT_Cadastro
+            }))[0];
+
+            return response.status(200).json({
+                sucesso: true,
+                mensagem: 'Usuário encontrado.',
+                dados
+            });
+
+        } catch (error) {
+            return response.status(500).json({
+                sucesso: false,
+                mensagem: 'Erro na requisição',
+                dados: error.message
+            });
+        }
+    },
+
     async listarUsuarios(request, response) {
         try {
 

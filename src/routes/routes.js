@@ -37,6 +37,7 @@ router.delete('/tabela/:id', TabelaController.excluirTabelas);
 
 // ===== USUÁRIO =====
 router.get('/usuarios', UsuarioController.listarUsuarios);
+router.get('/usuario/:id', UsuarioController.buscarUsuarioPorId);
 router.post('/usuarios', UsuarioController.inserirUsuarios);
 router.patch('/usuarios/:id', UsuarioController.atualizarUsuarios);
 router.delete('/usuarios/:id', UsuarioController.excluirUsuarios);
