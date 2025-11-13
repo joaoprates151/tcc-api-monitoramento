@@ -4,7 +4,7 @@ module.exports = {
     async listarLocalidades(request, response) {
         try {
 
-            const sql = 'SELECT ID_localidade, NM_Localidade, UF_Localidade FROM bd_tcc_infonet_224_monit_prev.localidade'
+            const sql = 'SELECT ID_Localidade, NM_Localidade, UF_Localidade FROM bd_tcc_infonet_224_monit_prev.localidade'
 
             const [rows] = await db.query(sql)
             return response.status(200).json({
@@ -20,21 +20,21 @@ module.exports = {
                 mensagem: 'Erro na requisição',
                 dados: error.message
             });
-        } 
+        }
     },
 
     async atualizarLocalidades(request, response) {
         try {
 
-            const {NM_Localidade, UF_Localidade} = request.body
-            const {ID_localidade} = request.params
+            const { NM_Localidade, UF_Localidade } = request.body
+            const { ID_localidade } = request.params
 
             const sql = 'update localidade set NM_Localidade = ?,  UF_Localidade = ? where ID_localidade = ?'
 
             const values = [NM_Localidade, UF_Localidade, ID_localidade]
 
             const dadosAtualizados = await db.query(sql, values)
-             
+
             return response.status(200).json({
                 sucesso: true,
                 mensagem: `Localidade ${ID_localidade} atualizado com sucesso!`,
@@ -46,18 +46,18 @@ module.exports = {
                 mensagem: 'Erro na requisição',
                 dados: error.message
             });
-        } 
+        }
     },
 
     async inserirLocalidades(request, response) {
         try {
 
-            const {NM_Localidade, UF_Localidade} = request.body
+            const { NM_Localidade, UF_Localidade } = request.body
 
             const sql = 'insert into localidade (NM_Localidade, UF_Localidade) values (?,?)'
 
             const values = [NM_Localidade, UF_Localidade]
-            
+
 
             const [results] = await db.query(sql, values)
 
@@ -75,22 +75,21 @@ module.exports = {
                 mensagem: 'Erro na requisição',
                 dados: error.message
             });
-        } 
+        }
     },
 
     async excluirLocalidades(request, response) {
         try {
-            const {ID_localidade} = request.params
+            const { ID_localidade } = request.params
 
             const sql = 'delete from localidade where Id_localidade = ?'
 
             const values = [ID_localidade]
-            
+
 
             const [results] = await db.query(sql, values)
 
-            if( results.affectedRows === 0 )
-            {
+            if (results.affectedRows === 0) {
                 return response.status(404).json({
                     sucesso: false,
                     mensagem: `Localidade ${ID_localidade} não encontrado!`,
@@ -110,6 +109,6 @@ module.exports = {
                 mensagem: 'Erro na requisição',
                 dados: error.message
             });
-        } 
+        }
     }
 }

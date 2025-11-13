@@ -275,6 +275,7 @@ module.exports = {
     },
 
     // Cadastrar nova visita
+
     async cadastrarVisita(request, response) {
         try {
             const {
@@ -291,65 +292,71 @@ module.exports = {
                 visita_itens
             } = request.body;
 
-            // Iniciar transação
+            console.log('📥 Recebendo dados da visita:', request.body);
+
             await db.query('START TRANSACTION');
 
             try {
-                // 1. Inserir endereço
+                // 1. VERIFICAR SE ID_RUA EXISTE
+                if (!endereco.ID_Rua) {
+                    await db.query('ROLLBACK');
+                    return response.status(400).json({
+                        sucesso: false,
+                        mensagem: 'ID da rua é obrigatório',
+                        dados: null
+                    });
+                }
+
+                // 2. Inserir endereço - USANDO ID_RUA DIRETAMENTE
                 const enderecoSql = `
-          INSERT INTO enderecos (ID_Pessoa, ID_Rua, NO_Imovel, Complemento, DS_Ponto_Referencia, LA_Latitude, LO_Longitude)
-          VALUES (?, ?, ?, ?, ?, ?, ?)
-        `;
+                INSERT INTO enderecos (ID_Pessoa, ID_Rua, NO_Imovel, Complemento, DS_Ponto_Referencia, LA_Latitude, LO_Longitude)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            `;
 
                 const [enderecoResult] = await db.query(enderecoSql, [
-                    null, // ID_Pessoa pode ser null inicialmente
-                    endereco.rua.ID_Rua || 1, // Usar ID da rua existente ou padrão
+                    null, // ID_Pessoa como null (não obrigatório)
+                    endereco.ID_Rua, // ✅ USAR ID_Rua recebido
                     endereco.NO_Imovel,
-                    endereco.Complemento,
-                    endereco.DS_Ponto_Referencia,
-                    endereco.LA_Latitude,
-                    endereco.LO_Longitude
+                    endereco.Complemento || '',
+                    endereco.DS_Ponto_Referencia || '',
+                    endereco.LA_Latitude || null,
+                    endereco.LO_Longitude || null
                 ]);
 
                 const ID_Endereco = enderecoResult.insertId;
 
-                // 2. Inserir visita
+                // 3. Inserir visita
                 const visitaSql = `
-          INSERT INTO visita (
-            ID_Usuario, DT_Cadastro, DT_Solicitacao, DT_Atendimento, ID_Unidade_Saude,
-            ID_Pessoa, ID_Endereco, ST_Imovel, ST_Situacao, QT_Amostra_Coletada,
-            SN_Acidente, SN_Demanda_Expontanea, DS_Observacao, SN_Agenda_Retorno,
-            DT_Retono, ST_Status, Assinatura_Base64
-          ) VALUES (?, NOW(), NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `;
+                INSERT INTO visita (
+                    ID_Usuario, DT_Cadastro, DT_Solicitacao, DT_Atendimento, ID_Unidade_Saude,
+                    ID_Pessoa, ID_Endereco, ST_Imovel, ST_Situacao, QT_Amostra_Coletada,
+                    SN_Acidente, SN_Demanda_Expontanea, DS_Observacao, SN_Agenda_Retorno,
+                    DT_Retono, ST_Status, Assinatura_Base64
+                ) VALUES (?, NOW(), NOW(), ?, ?, NULL, ?, ?, ?, NULL, ?, ?, ?, ?, NULL, 'A', NULL)
+            `;
 
                 const [visitaResult] = await db.query(visitaSql, [
                     ID_Usuario,
                     DT_Atendimento,
                     ID_Unidade_Saude,
-                    null, // ID_Pessoa (proprietário) - pode ser null
                     ID_Endereco,
                     ST_Imovel,
                     ST_Situacao,
-                    null, // QT_Amostra_Coletada
                     SN_Acidente,
                     SN_Demanda_Expontanea,
                     DS_Observacao,
-                    SN_Agenda_Retorno,
-                    null, // DT_Retono
-                    'A', // ST_Status - Ativo
-                    null // Assinatura_Base64
+                    SN_Agenda_Retorno
                 ]);
 
                 const ID_Visita = visitaResult.insertId;
 
-                // 3. Inserir itens da visita (ocorrências)
+                // 4. Inserir itens da visita se existirem
                 if (visita_itens && visita_itens.length > 0) {
                     for (const item of visita_itens) {
                         const itemSql = `
-              INSERT INTO visita_item (ID_Visita, ID_Tipo_Ocorrencia, SINAN, DS_Ocorrencia)
-              VALUES (?, ?, ?, ?)
-            `;
+                        INSERT INTO visita_item (ID_Visita, ID_Tipo_Ocorrencia, SINAN, DS_Ocorrencia)
+                        VALUES (?, ?, ?, ?)
+                    `;
                         await db.query(itemSql, [
                             ID_Visita,
                             item.ID_Tipo_Ocorrencia,
@@ -359,8 +366,9 @@ module.exports = {
                     }
                 }
 
-                // Commit da transação
                 await db.query('COMMIT');
+
+                console.log('✅ Visita cadastrada com sucesso - ID:', ID_Visita);
 
                 return response.status(200).json({
                     sucesso: true,
@@ -369,16 +377,17 @@ module.exports = {
                 });
 
             } catch (error) {
-                // Rollback em caso de erro
                 await db.query('ROLLBACK');
+                console.error('❌ Erro na transação:', error);
                 throw error;
             }
 
         } catch (error) {
+            console.error('❌ Erro ao cadastrar visita:', error);
             return response.status(500).json({
                 sucesso: false,
-                mensagem: 'Erro ao cadastrar visita',
-                dados: error.message
+                mensagem: 'Erro ao cadastrar visita: ' + error.message,
+                dados: null
             });
         }
     },
