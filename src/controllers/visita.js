@@ -294,29 +294,28 @@ module.exports = {
 
             console.log('📥 Recebendo dados da visita:', request.body);
 
+            //valida endereço
+            if (!endereco || !endereco.ID_Rua) {
+                return response.status(400).json({
+                    sucesso: false,
+                    mensagem: 'ID da rua é obrigatório',
+                    dados: null
+                });
+            }
+
             await db.query('START TRANSACTION');
 
             try {
-                // 1. VERIFICAR SE ID_RUA EXISTE
-                if (!endereco.ID_Rua) {
-                    await db.query('ROLLBACK');
-                    return response.status(400).json({
-                        sucesso: false,
-                        mensagem: 'ID da rua é obrigatório',
-                        dados: null
-                    });
-                }
-
-                // 2. Inserir endereço - USANDO ID_RUA DIRETAMENTE
+                // 1. Inserir endereço
                 const enderecoSql = `
                 INSERT INTO enderecos (ID_Pessoa, ID_Rua, NO_Imovel, Complemento, DS_Ponto_Referencia, LA_Latitude, LO_Longitude)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
             `;
 
                 const [enderecoResult] = await db.query(enderecoSql, [
-                    null, // ID_Pessoa como null (não obrigatório)
-                    endereco.ID_Rua, // ✅ USAR ID_Rua recebido
-                    endereco.NO_Imovel,
+                    null,
+                    endereco.ID_Rua,
+                    endereco.NO_Imovel || 'S/N',
                     endereco.Complemento || '',
                     endereco.DS_Ponto_Referencia || '',
                     endereco.LA_Latitude || null,
@@ -325,7 +324,7 @@ module.exports = {
 
                 const ID_Endereco = enderecoResult.insertId;
 
-                // 3. Inserir visita
+                // 2. Inserir visita
                 const visitaSql = `
                 INSERT INTO visita (
                     ID_Usuario, DT_Cadastro, DT_Solicitacao, DT_Atendimento, ID_Unidade_Saude,
@@ -350,7 +349,7 @@ module.exports = {
 
                 const ID_Visita = visitaResult.insertId;
 
-                // 4. Inserir itens da visita se existirem
+                // 3. Inserir itens da visita se existirem
                 if (visita_itens && visita_itens.length > 0) {
                     for (const item of visita_itens) {
                         const itemSql = `
