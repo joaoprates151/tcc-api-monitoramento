@@ -77,7 +77,7 @@ module.exports = {
             const { idUsuario } = request.params;
 
             const sql = `
-        SELECT 
+        SELECT DISTINCT
           v.ID_Visita,
           v.ID_Usuario,
           v.DT_Cadastro,
