@@ -2,8 +2,8 @@ const mysql = require("mysql2/promise");
 
 const BD_USUARIO = "us_infonet_224_monit_prev";
 const BD_SENHA = "mnt489prev"; // senha
-const BD_SERVIDOR = '10.67.22.216'; // servidor
-//const BD_SERVIDOR = "localhost"; //casa
+//const BD_SERVIDOR = '10.67.22.216'; // servidor
+const BD_SERVIDOR = "localhost"; //casa
 const BD_PORTA = "3306"; // porta
 const BD_BANCO = "bd_tcc_infonet_224_monit_prev"; // nome do banco
 let connection;
